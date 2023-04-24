@@ -1,0 +1,60 @@
+/* Calendar.css */
+.container {
+    display: grid;
+    gap: 16px;
+  }
+  
+  /* Desktop view */
+  @media (min-width: 1024px) {
+    .container {
+      grid-template-columns: 1fr repeat(7, minmax(100px, 1fr));
+      grid-template-rows: auto auto;
+      margin-left: 100px;
+    }
+  }
+    .navbar-desktop {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        height: 100%;
+    }
+  
+  
+  /* Tablet view */
+  @media (max-width: 1023px) and (min-width: 768px) {
+    .container {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+  
+  /* Mobile view */
+  @media (max-width: 767px) {
+    .container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .grid-item {
+    border: 1px solid black;
+    padding: 8px;
+    background-color: #f0f0f0;
+    text-align: center;
+  }
+  
+  .navbar-desktop {
+    grid-column: 1;
+  }
+  
+  .extra-space {
+    grid-column: 2 / span 7;
+  }
+  
+  .navbar-mobile {
+    grid-column: 1 / span 3;
+    grid-row: 1;
+  }
+  
+  .navbar-tablet {
+    grid-column: 1 / span 5;
+    grid-row: 1;
+  }
+  
