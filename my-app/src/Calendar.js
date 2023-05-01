@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './Calendar.css';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,71 +9,23 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
-const columns = [
-  { id: 'sunday', label: 'Sunday', minWidth: 170 },
-  { id: 'monday', label: 'Monday', minWidth: 170 },
-  { id: 'tuesday', label: 'Tuesday', minWidth: 170 },
-  { id: 'wednesday', label: 'Wednesday', minWidth: 170 },
-  { id: 'thursday', label: 'Thursday', minWidth: 170 },
-  { id: 'friday', label: 'Friday', minWidth: 170 },
-  { id: 'saturday', label: 'Saturday', minWidth: 170 },
-//   {
-//     id: 'population',
-//     label: 'Population',
-//     minWidth: 170,
-//     align: 'right',
-//     format: (value) => value.toLocaleString('en-US'),
-//   },
-//   {
-//     id: 'size',
-//     label: 'Size\u00a0(km\u00b2)',
-//     minWidth: 170,
-//     align: 'right',
-//     format: (value) => value.toLocaleString('en-US'),
-//   },
-//   {
-//     id: 'density',
-//     label: 'Density',
-//     minWidth: 170,
-//     align: 'right',
-//     format: (value) => value.toFixed(2),
-//   },
-];
-
-const rows = [];
-
-function createData(time) {
-  return { time };
-}
-
+const columns = [{ id: 'day', label: 'Technician', minWidth: 170 }];
 for (let i = 0; i < 24; i++) {
   const hour = i < 10 ? `0${i}` : i;
-  rows.push(createData(`${hour}:00`));
-  rows.push(createData(`${hour}:30`));
+  columns.push({ id: `${hour}:00`, label: `${hour}:00`, minWidth: 100 });
+  columns.push({ id: `${hour}:30`, label: `${hour}:30`, minWidth: 100 });
 }
 
-// function createData(sunday, code, population, size) {
-//   const density = population / size;
-//   return { sunday, code, population, size, density };
-// }
-
-// const rows = [
-//   createData('India', 'IN', 1324171354, 3287263),
-//   createData('China', 'CN', 1403500365, 9596961),
-//   createData('Italy', 'IT', 60483973, 301340),
-//   createData('United States', 'US', 327167434, 9833520),
-//   createData('Canada', 'CA', 37602103, 9984670),
-//   createData('Australia', 'AU', 25475400, 7692024),
-//   createData('Germany', 'DE', 83019200, 357578),
-//   createData('Ireland', 'IE', 4857000, 70273),
-//   createData('Mexico', 'MX', 126577691, 1972550),
-//   createData('Japan', 'JP', 126317000, 377973),
-//   createData('France', 'FR', 67022000, 640679),
-//   createData('United Kingdom', 'GB', 67545757, 242495),
-//   createData('Russia', 'RU', 146793744, 17098246),
-//   createData('Nigeria', 'NG', 200962417, 923768),
-//   createData('Brazil', 'BR', 210147125, 8515767),
-// ];
+const rows = [
+  { id: 'user_id_1', label: 'Billy Gibbons' },
+  { id: 'user_id_2', label: 'James Dean' },
+].map((day) => {
+  const row = { day: day.label };
+  columns.slice(1).forEach((time) => {
+    row[time.id] = '';
+  });
+  return row;
+});
 
 export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
@@ -89,7 +42,7 @@ export default function StickyHeadTable() {
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer className="table-container" sx={{ maxHeight: 880 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -109,7 +62,7 @@ export default function StickyHeadTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.day}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -125,16 +78,16 @@ export default function StickyHeadTable() {
               })}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
     </Paper>
   );
 }

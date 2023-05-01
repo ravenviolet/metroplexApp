@@ -1,7 +1,12 @@
 /* Calendar.css */
+.table-container {
+    /* background: black; */
+    height: 100%;
+    margin-left: 150px;
+}
 .container {
-    display: grid;
-    gap: 16px;
+    height: 90vh;
+    overflow: auto;
   }
   
   /* Desktop view */
@@ -9,7 +14,7 @@
     .container {
       grid-template-columns: 1fr repeat(7, minmax(100px, 1fr));
       grid-template-rows: auto auto;
-      margin-left: 100px;
+      margin-left:
     }
   }
     .navbar-desktop {
