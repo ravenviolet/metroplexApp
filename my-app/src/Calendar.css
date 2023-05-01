@@ -9,6 +9,16 @@
     overflow: auto;
   }
   
+  /* In your Calendar.css */
+.jobTime {
+  background-color: 'red';
+  color: 'white';
+  padding: 0;
+  height: '100%';
+  width: '100%';
+  border: 'none';
+}
+
   /* Desktop view */
   @media (min-width: 1024px) {
     .container {
