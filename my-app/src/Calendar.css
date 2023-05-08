@@ -10,6 +10,15 @@
   }
   
   /* In your Calendar.css */
+.table-container .MuiTableCell-root {
+  border-right: 1px solid #ccc;
+}
+
+.table-container .MuiTableCell-root:last-child {
+  border-right: none;
+}
+
+  /* In your Calendar.css */
 .jobTime {
   background-color: 'red';
   color: 'white';

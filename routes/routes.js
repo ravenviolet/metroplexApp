@@ -4,9 +4,68 @@ const { Job, Technician } = require('../models/model');
 const pipedrive = require('pipedrive');
 const { mapDeal, mapTechnician } = require('../pipeMap.js');
 const defaultClient = new pipedrive.ApiClient();
+// const cors = require('cors');
 
+router.use(express.json());
+// router.use(cors());
 let apiToken = defaultClient.authentications.api_key;
 apiToken.apiKey = 'adee9abc6e0b3449db978340e0fd9ea104923205';
+
+//webhook
+router.post('/webhook', async (req, res) => {
+  try {
+    // Process the webhook payload here
+    console.log('Webhook received:', req.body);
+
+    const eventType = req.body.meta.action; // Get the event type from the webhook payload
+    console.log(eventType);
+    if (eventType === 'updated') { 
+      const updatedDeal = req.body.current; // Get the updated deal data from the webhook payload
+
+      // Process the updated deal data
+      console.log(`Deal updated. New data:`, updatedDeal);
+
+      const dealId = req.body.meta.id;
+      const newTitle = updatedDeal.title;
+
+      // Update the title field for the deal ID in the MongoDB collection
+      await Job.updateOne(
+        { deal_id: dealId },
+        { $set: { title: newTitle } }
+      );
+    }
+
+    // Send a success response
+    res.status(200).json({ message: 'Webhook processed successfully' });
+  } catch (error) {
+    console.error('Error processing webhook:', error);
+    res.status(500).json({ message: 'Error processing webhook' });
+  }
+});
+
+router.delete('/cleanup2', async (req, res) => {
+  try {
+    // const extraFieldExists = { title: { $exists: false } };
+    const result = await Job.deleteMany();
+    console.log(`Deleted ${result.deletedCount} documents without the extra field.`);
+    res.status(200).json({ message: `Deleted ${result.deletedCount} documents.` });
+  } catch (error) {
+    console.error('Error deleting documents:', error);
+    res.status(500).json({ message: 'Error deleting documents' });
+  }
+});
+
+router.delete('/cleanup', async (req, res) => {
+  try {
+    const extraFieldExists = { title: { $exists: false } };
+    const result = await Job.deleteMany(extraFieldExists);
+    console.log(`Deleted ${result.deletedCount} documents without the extra field.`);
+    res.status(200).json({ message: `Deleted ${result.deletedCount} documents without the extra field.` });
+  } catch (error) {
+    console.error('Error deleting documents:', error);
+    res.status(500).json({ message: 'Error deleting documents' });
+  }
+});
 
 //get all deals
 router.get('/deals', async (req, res) => {
@@ -20,8 +79,6 @@ router.get('/deals', async (req, res) => {
         const mappedDeal = mapDeal(deal);
         console.log(deal);
         return await new Job(mappedDeal).save().catch(console.error);
-        // console.log(savedDeals);
-        // return savedDeals;
       }));
   
       console.log(`Saved ${savedDeals.length} deals to MongoDB!`);
@@ -89,6 +146,17 @@ router.get('/dealFields', async (req, res) => {
     }
 });
 
+//react routes
+// Define a route for getting job data
+router.get('/jobs', async (req, res) => {
+  try {
+    const jobs = await Job.find(); // Query the MongoDB collection to get job data
+    res.status(200).json(jobs); // Send the job data as a JSON response
+  } catch (error) {
+    console.error('Error fetching job data:', error);
+    res.status(500).json({ message: 'Error fetching job data' });
+  }
+});
 
 module.exports = router;
 //uncomment  later
@@ -283,5 +351,6 @@ module.exports = router;
 //     }
 // });
 // })();
+
 
 

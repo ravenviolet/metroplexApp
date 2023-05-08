@@ -1,0 +1,267 @@
+{
+    "success": true,
+    "data": {
+        "id": 7,
+        "creator_user_id": {
+            "id": 18537868,
+            "name": "John Green",
+            "email": "johnmaithlandgreen@gmail.com",
+            "has_pic": false,
+            "pic_hash": null,
+            "active_flag": true,
+            "value": 18537868
+        },
+        "user_id": {
+            "id": 18537868,
+            "name": "John Green",
+            "email": "johnmaithlandgreen@gmail.com",
+            "has_pic": false,
+            "pic_hash": null,
+            "active_flag": true,
+            "value": 18537868
+        },
+        "org_id": {
+            "name": "Billly Gibbons",
+            "people_count": 1,
+            "owner_id": 18537868,
+            "address": null,
+            "active_flag": true,
+            "cc_email": "metroplex360-sandbox@pipedrivemail.com",
+            "value": 1
+        },
+        "stage_id": 10,
+        "title": "Deal Test_3",
+        "value": 15500,
+        "currency": "USD",
+        "add_time": "2021-02-11 14:00:00",
+        "update_time": "2023-05-05 06:30:56",
+        "stage_change_time": null,
+        "active": true,
+        "deleted": false,
+        "status": "open",
+        "probability": 60,
+        "next_activity_date": null,
+        "next_activity_time": null,
+        "next_activity_id": null,
+        "last_activity_id": null,
+        "last_activity_date": null,
+        "lost_reason": null,
+        "visible_to": "1",
+        "close_time": null,
+        "pipeline_id": 1,
+        "won_time": null,
+        "first_won_time": null,
+        "lost_time": null,
+        "products_count": 0,
+        "files_count": 0,
+        "notes_count": 0,
+        "followers_count": 1,
+        "email_messages_count": 0,
+        "activities_count": 0,
+        "done_activities_count": 0,
+        "undone_activities_count": 0,
+        "participants_count": 0,
+        "expected_close_date": "2022-02-11",
+        "last_incoming_mail_time": null,
+        "last_outgoing_mail_time": null,
+        "label": null,
+        "stage_order_nr": 4,
+        "person_name": null,
+        "org_name": "Billly Gibbons",
+        "next_activity_subject": null,
+        "next_activity_type": null,
+        "next_activity_duration": null,
+        "next_activity_note": null,
+        "formatted_value": "$15,500",
+        "weighted_value": 15500,
+        "formatted_weighted_value": "$15,500",
+        "weighted_value_currency": "USD",
+        "rotten_time": null,
+        "owner_name": "John Green",
+        "cc_email": "metroplex360-sandbox+deal7@pipedrivemail.com",
+        "77b85cff28201abfec9f626c357ceec59e075636": "Austin, TX, USA",
+        "77b85cff28201abfec9f626c357ceec59e075636_subpremise": "",
+        "77b85cff28201abfec9f626c357ceec59e075636_street_number": "",
+        "77b85cff28201abfec9f626c357ceec59e075636_route": "",
+        "77b85cff28201abfec9f626c357ceec59e075636_sublocality": "",
+        "77b85cff28201abfec9f626c357ceec59e075636_locality": "Austin",
+        "77b85cff28201abfec9f626c357ceec59e075636_admin_area_level_1": "Texas",
+        "77b85cff28201abfec9f626c357ceec59e075636_admin_area_level_2": "Travis County",
+        "77b85cff28201abfec9f626c357ceec59e075636_country": "United States",
+        "77b85cff28201abfec9f626c357ceec59e075636_postal_code": "",
+        "77b85cff28201abfec9f626c357ceec59e075636_formatted_address": "Austin, TX, USA",
+        "dc494be508d752a519b54ed4e8f8db500087d60f": null,
+        "dc494be508d752a519b54ed4e8f8db500087d60f_subpremise": null,
+        "dc494be508d752a519b54ed4e8f8db500087d60f_street_number": null,
+        "dc494be508d752a519b54ed4e8f8db500087d60f_route": null,
+        "dc494be508d752a519b54ed4e8f8db500087d60f_sublocality": null,
+        "dc494be508d752a519b54ed4e8f8db500087d60f_locality": null,
+        "dc494be508d752a519b54ed4e8f8db500087d60f_admin_area_level_1": null,
+        "dc494be508d752a519b54ed4e8f8db500087d60f_admin_area_level_2": null,
+        "dc494be508d752a519b54ed4e8f8db500087d60f_country": null,
+        "dc494be508d752a519b54ed4e8f8db500087d60f_postal_code": null,
+        "dc494be508d752a519b54ed4e8f8db500087d60f_formatted_address": null,
+        "bb04ca63627f17ecb02aac6a7260876c6492079f": null,
+        "1fdc16c77684e70890e8aa6cf0d8cb48c08a1c49": null,
+        "468b99e73b40a01989abffdf1ada4294cb6a3c20": null,
+        "0c83313fba78b12676463126f74527552763ec8e": {
+            "active_flag": true,
+            "name": "Billy Gibbons",
+            "email": [
+                {
+                    "value": "",
+                    "primary": true
+                }
+            ],
+            "phone": [
+                {
+                    "value": "",
+                    "primary": true
+                }
+            ],
+            "owner_id": 18537868,
+            "value": 1
+        },
+        "a5ed135fe1d0c912d151685da4f86620106e074f": null,
+        "52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f": null,
+        "52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f_timezone_id": null,
+        "87bccaa66e94e9fb339a2adc343333fa900fbe27": null,
+        "40fc635f90f19d5c6a369ffd40a5c86ecd1b90b9": null,
+        "40fc635f90f19d5c6a369ffd40a5c86ecd1b90b9_currency": null,
+        "723580ee6b265282f6fee4b98c51fce6a89d464e": null,
+        "723580ee6b265282f6fee4b98c51fce6a89d464e_currency": null,
+        "487d7e7c8a77fe47e49a250d198070be8641e1b5": null,
+        "ab47790bf8f7ad264b7a5bc7307cd48fd612047f": null,
+        "cf7c9522cc73f9c120e4b1d770cf62aef14ffdf6": null,
+        "5d961f699a8722b3ed69ab165d1c7a477f598ce8": null,
+        "719c75a4889b84b952c802ac2858cdaa31656c79": null,
+        "d396fa684a338b5908fa62a40bbcee2c48a1908e": null,
+        "f079d444d4137a200d1d71835293d4207aefa103": null,
+        "d9b82e3c321ec465052d3c3a88c6a54a4d2c7f58": null,
+        "8f2dfa63e5cf2f9faaf95e494dd8f484c9fe98db": null,
+        "39589ccfd5ffcd561e249e1fa452bafd3d21d93a": null,
+        "39589ccfd5ffcd561e249e1fa452bafd3d21d93a_currency": null,
+        "f8cb375b3aaa58fdf584b1ae6216d8be0b3d92f0": null,
+        "b99a1bae6c53cc5512d0d26c9b00ce46c90276d6": null,
+        "f2f9dfc79ba86e100f3230b218e6e78a6ade2929": null,
+        "29e4737bb43941cee199691a6600c8b96c995777": null,
+        "9dc2d655930ee0d4254d7bccd853dd17c760369b": null,
+        "aad2bd7ba19899db4dfc6c7f895866efde260713": null,
+        "aad2bd7ba19899db4dfc6c7f895866efde260713_currency": null,
+        "63abc182d5f9254b5a59e619ff288cc409211980": null,
+        "0ccf2ebde552fce2e9deba49e668858af6c09a59": null,
+        "b05583e6adfaadc57786e6a0b198c01091166a9e": null,
+        "org_hidden": false,
+        "person_hidden": false,
+        "average_time_to_won": {
+            "y": 0,
+            "m": 0,
+            "d": 0,
+            "h": 0,
+            "i": 0,
+            "s": 0,
+            "total_seconds": 0
+        },
+        "average_stage_progress": 0,
+        "age": {
+            "y": 2,
+            "m": 2,
+            "d": 24,
+            "h": 5,
+            "i": 59,
+            "s": 34,
+            "total_seconds": 70264774
+        },
+        "stay_in_pipeline_stages": {
+            "times_in_stages": {
+                "7": 0,
+                "8": 0,
+                "9": 0,
+                "10": 985243
+            },
+            "order_of_stages": [
+                7,
+                8,
+                9,
+                10
+            ]
+        },
+        "last_activity": null,
+        "next_activity": null
+    },
+    "additional_data": {
+        "dropbox_email": "metroplex360-sandbox+deal7@pipedrivemail.com"
+    },
+    "related_objects": {
+        "user": {
+            "18537868": {
+                "id": 18537868,
+                "name": "John Green",
+                "email": "johnmaithlandgreen@gmail.com",
+                "has_pic": 0,
+                "pic_hash": null,
+                "active_flag": true
+            }
+        },
+        "organization": {
+            "1": {
+                "id": 1,
+                "name": "Billly Gibbons",
+                "people_count": 1,
+                "owner_id": 18537868,
+                "address": null,
+                "active_flag": true,
+                "cc_email": "metroplex360-sandbox@pipedrivemail.com"
+            }
+        },
+        "person": {
+            "1": {
+                "active_flag": true,
+                "id": 1,
+                "name": "Billy Gibbons",
+                "email": [
+                    {
+                        "value": "",
+                        "primary": true
+                    }
+                ],
+                "phone": [
+                    {
+                        "value": "",
+                        "primary": true
+                    }
+                ],
+                "owner_id": 18537868
+            }
+        },
+        "pipeline": {
+            "1": {
+                "id": 1,
+                "name": "Pipeline",
+                "url_title": "default",
+                "order_nr": 1,
+                "active": true,
+                "deal_probability": false,
+                "add_time": "2023-04-06 16:54:57",
+                "update_time": null
+            }
+        },
+        "stage": {
+            "10": {
+                "id": 10,
+                "company_id": 10330159,
+                "order_nr": 4,
+                "name": "Scheduled",
+                "active_flag": true,
+                "deal_probability": 100,
+                "pipeline_id": 1,
+                "rotten_flag": false,
+                "rotten_days": null,
+                "add_time": "2023-04-08 16:50:03",
+                "update_time": "2023-04-08 16:50:50",
+                "pipeline_name": "Pipeline",
+                "pipeline_deal_probability": false
+            }
+        }
+    }
+}

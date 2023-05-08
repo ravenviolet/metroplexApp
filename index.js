@@ -2,6 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const mongoString = process.env.DATABASE_URL;
 
+
 mongoose.connect(mongoString);
 const database = mongoose.connection;
 
@@ -15,11 +16,15 @@ database.once('connected', () => {
 
 const express = require('express');
 const app = express();
+const cors = require('cors');
+
+app.use(cors());
 app.use(express.json());
 
 const routes = require('./routes/routes');
 app.use('/api', routes);
 
-app.listen(process.env.port || 3000, () => {
-    console.log('Listening for requests')
-})
+app.listen(process.env.PORT || 3000, () => {
+    console.log('Listening for requests');
+  });
+  
