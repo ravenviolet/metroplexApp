@@ -13,11 +13,20 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 //new:
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Switch from '@mui/material/Switch';
 //
 
 // import '@mui/lab/theme-provider';
 // import { ThemeProvider } from '@mui/lab';
 //uninstall the above in my-app and my-app/src
+
+
+
+
+
 
 function StickyHeadTable() {
   // const jobs = JobTable();
@@ -26,7 +35,14 @@ function StickyHeadTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   //new:
   const [currentDate, setCurrentDate] = useState(new Date());
-//
+  const [darkMode, setDarkMode] = useState(false);
+
+  //dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.body.classList.toggle('dark-mode');
+  };
+
 
   useEffect(() => {
     //new
@@ -148,6 +164,7 @@ function StickyHeadTable() {
             </TableRow>
           </TableHead>
         <TableBody>
+          
   {Object.entries(filteredJobs)
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
     .map(([technicianName, technicianJobs]) => {
@@ -218,12 +235,18 @@ function StickyHeadTable() {
           />
         </TableContainer>
       </Paper>
+      <div style={{ maxWidth: 'YOUR_DESIRED_WIDTH', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16 }}>
-        <Button variant="contained" onClick={handlePreviousDate}>Previous Day</Button>
-        <Typography>{currentDate.toDateString()}</Typography>
-        <Button variant="contained" onClick={handleNextDate}>Next Day</Button>
-      </div>
+      <IconButton onClick={handlePreviousDate} style={{ backgroundColor: 'transparent' }}>
+        <ArrowBackIcon />
+      </IconButton>
+      <Typography>{currentDate.toDateString()}</Typography>
+      <IconButton onClick={handleNextDate} style={{ backgroundColor: 'transparent' }}>
+        <ArrowForwardIcon />
+      </IconButton>
     </div>
+    </div>
+</div>
   );
   }
   export default StickyHeadTable;

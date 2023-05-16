@@ -1,6 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const mongoString = process.env.DATABASE_URL;
+const dupDeals = require('./models/model_update')
 
 
 mongoose.connect(mongoString);
@@ -10,8 +11,8 @@ database.on('error', (error) =>{
     console.log(error)
 })
 
-database.once('connected', () => {
-    console.log('Database Connected Success');
+database.once('connected', () =>{
+    console.log('Database Connected Success')
 })
 
 const express = require('express');
@@ -22,7 +23,10 @@ app.use(cors());
 app.use(express.json());
 
 const routes = require('./routes/routes');
+const dealUpdateRoute = require('./routes/dealupdate');
+
 app.use('/api', routes);
+app.use('/api/dealupdate', dealUpdateRoute);
 
 app.listen(process.env.PORT || 3000, () => {
     console.log('Listening for requests');

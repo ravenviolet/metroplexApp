@@ -12,36 +12,48 @@ let apiToken = defaultClient.authentications.api_key;
 apiToken.apiKey = 'adee9abc6e0b3449db978340e0fd9ea104923205';
 
 //webhook
-router.post('/webhook', async (req, res) => {
-  try {
-    // Process the webhook payload here
-    console.log('Webhook received:', req.body);
+// router.post('/webhook', async (req, res) => {
+//   try {
+//     // Process the webhook payload here
+//     console.log('Webhook received:', req.body);
 
-    const eventType = req.body.meta.action; // Get the event type from the webhook payload
-    console.log(eventType);
-    if (eventType === 'updated') { 
-      const updatedDeal = req.body.current; // Get the updated deal data from the webhook payload
+//     const eventType = req.body.meta.action; // Get the event type from the webhook payload
+//     console.log(eventType);
+//     if (eventType === 'updated') { 
+//       const updatedDeal = req.body.current; // Get the updated deal data from the webhook payload
 
-      // Process the updated deal data
-      console.log(`Deal updated. New data:`, updatedDeal);
+//       // Process the updated deal data
+//       console.log(`Deal updated. New data:`, updatedDeal);
 
-      const dealId = req.body.meta.id;
-      const newTitle = updatedDeal.title;
+//       const dealId = req.body.meta.id;
 
-      // Update the title field for the deal ID in the MongoDB collection
-      await Job.updateOne(
-        { deal_id: dealId },
-        { $set: { title: newTitle } }
-      );
-    }
+//       // Job.findById(dealId, function (err,doc) {
+//       //   if (err){
+//       //     console.log(err);
+//       //   }
+//       //   else{
+//       //     console.log( "Results : ", doc);
+//       //   }
 
-    // Send a success response
-    res.status(200).json({ message: 'Webhook processed successfully' });
-  } catch (error) {
-    console.error('Error processing webhook:', error);
-    res.status(500).json({ message: 'Error processing webhook' });
-  }
-});
+//       //   return doc;
+//       // });
+
+//       const newTitle = updatedDeal.title;
+
+//       // Update the title field for the deal ID in the MongoDB collection
+//       await Job.updateOne(
+//         { deal_id: dealId },
+//         { $set: { title: newTitle } }
+//       );
+//     }
+
+//     // Send a success response
+//     res.status(200).json({ message: 'Webhook processed successfully' });
+//   } catch (error) {
+//     console.error('Error processing webhook:', error);
+//     res.status(500).json({ message: 'Error processing webhook' });
+//   }
+// });
 
 router.delete('/cleanup2', async (req, res) => {
   try {

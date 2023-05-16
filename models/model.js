@@ -1,24 +1,101 @@
 const mongoose = require('mongoose');
 
 const jobSchema = new mongoose.Schema({
-  //deal_id and id are redundandt. pipeMap.js defines the actual API ID's for example: pipedriveDeal.id.
   deal_id: {
-    type: String,
+    type: Number,
     required: true
   },
+  creator_user_id: {
+    id: String,
+    name: String,
+    email: String,
+    active_flag: Boolean,
+    value: Number
+  },
+  user_id: {
+    id: String,
+    name: String,
+    email: String,
+    active_flag: Boolean,
+    value: Number
+  },
+  person_id: String,
+  org_id: {
+    name: String,
+    people_count: Number,
+    owner_id: Number,
+    address: String,
+    active_flag: Boolean,
+    cc_email: String,
+    value: Number
+  },
+  stage_id: Number,
   title: String,
+  value: Number,
+  currency: String,
+  add_time: Date,
+  update_time: Date,
+  stage_change_time: String,
+  active: Boolean,
+  deleted: Boolean,
+  status: String,
+  probability: Number,
+  next_activity_date: Date,
+  next_activity_time: Date,
+  next_activity_id: Number,
+  last_activity_id: Number,
+  last_activity_date: Date,
+  lost_reason: String,
+  visible_to: Number,
+  close_time: Date,
+  pipeline_id: Number,
+  won_time: Date,
+  first_won_time: Date,
+  lost_time: Date,
+  products_count: Number,
+  files_count: Number,
+  notes_count: Number,
+  followers_count: Number,
+  email_messages_count: Number,
+  activities_count: Number,
+  done_activities_count: Number,
+  undone_activities_count: Number,
+  participants_count: Number,
+  expected_close_date: Date,
+  last_incoming_mail_time: Date,
+  last_outgoing_mail_time: Date,
+  //label*
+  label: String,
+  stage_order_nr: Number,
+  person_name: String,
+  org_name: String,
+  next_activity_subject: String,
+  next_activity_type: String,
+  next_activity_duration: String,
+  next_activity_note: String,
+  formatted_value: String,
+  weighted_value: Number,
+  formatted_weighted_value: String,
+  weighted_value_currency: String,
+  rotten_time: String,
+  owner_name: String,
+  cc_email: String,
+  org_hidden: Boolean,
+  person_hidden: Boolean,
   pipeline: String,
   deal_notes: String,
-  stage_id: String,
+  //start of numerical objects in pipeMap
   city_name: String,
   state_name: String,
-  formatted_address: String,
   community_name: String,
   technician_name: String,
   timezone_id: String,
   event_date: String,
   event_start_time: String
-});
+},
+  {
+    timestamps: true
+  });
 
 //technician schema for mongodb
 const technicianSchema = new mongoose.Schema({
