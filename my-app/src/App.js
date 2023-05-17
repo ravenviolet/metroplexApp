@@ -3,8 +3,8 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
 import MenuListComposition from './MenuList';
-import StickyHeadTable from './Calendar';
-
+import CalendarView from './CalendarView';
+// import JobDetails from './Information';
 
 function App() {
 
@@ -15,7 +15,8 @@ function App() {
       <React.StrictMode>
         <StyledEngineProvider injectFirst>
           <MenuListComposition />
-          <StickyHeadTable />
+          <CalendarView />
+          {/* <JobDetails /> */}
         </StyledEngineProvider>
       </React.StrictMode>
     </div>

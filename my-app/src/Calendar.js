@@ -1,94 +1,30 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import './Calendar.css';
+import './CalendarView';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-//new:
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import Switch from '@mui/material/Switch';
-//
 
-// import '@mui/lab/theme-provider';
-// import { ThemeProvider } from '@mui/lab';
-//uninstall the above in my-app and my-app/src
-
-
-
-
-
-
-function StickyHeadTable() {
+const StickyHeadTable = ({ currentDate, handleNextDate, handlePreviousDate, filteredJobs }) => {
   // const jobs = JobTable();
   const [jobs, setJobs] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   //new:
-  const [currentDate, setCurrentDate] = useState(new Date());
+  // const [currentDate, setCurrentDate] = useState(new Date());
   const [darkMode, setDarkMode] = useState(false);
 
   //dark mode
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.body.classList.toggle('dark-mode');
-  };
-
-
-  useEffect(() => {
-    //new
-    const formattedDate = currentDate.toISOString().slice(0, 10);
-        // Fetch job data from your API
-    //new
-    fetch(`http://localhost:3000/api/jobs?date=${formattedDate}`)
-    //
-    // fetch('http://localhost:3000/api/jobs')
-      .then((response) => response.json())
-      .then((data) => {
-        const groupedData = data.reduce((acc, job) => {
-          const techName = job.technician_name;
-          if (!acc[techName]) {
-            acc[techName] = [];
-          }
-          acc[techName].push(job);
-          return acc;
-        }, {});
-  
-        setJobs(groupedData);
-      })
-      .catch((error) => console.error('Error fetching job data:', error));
-  }, []);
-  
-  //new
-  const handlePreviousDate = () => {
-    const newDate = new Date(currentDate);
-    newDate.setDate(newDate.getDate() - 1);
-    setCurrentDate(newDate);
-  };
-  
-  const handleNextDate = () => {
-    const newDate = new Date(currentDate);
-    newDate.setDate(newDate.getDate() + 1);
-    setCurrentDate(newDate);
-  };
-  //end new
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
   };
 
   const jobArrays = Object.values(jobs);
@@ -99,9 +35,6 @@ function StickyHeadTable() {
         .map(job => parseInt(job.event_start_time.split(':')[0]))
     );
   }, []);
-  
-  // const minHour = Math.min(8, ...startHours);
-  // const maxHour = Math.max(17, ...startHours.map(startHour => startHour + 1));
   
   const columns = [
     { id: 'day', label: 'Technician', minWidth: 170 },
@@ -115,29 +48,6 @@ function StickyHeadTable() {
       };
     }),
   ];
-  
-  // for (let i = 0; i < 24; i++) {
-  //   const hour = i < 10 ? `0${i}` : i;
-  //   columns.push({ id: `${hour}:00`, label: `${hour}:00`, minWidth: 100 });
-  // }
-  
-  //new
-  const filteredJobs = Object.entries(jobs).reduce((acc, [technicianName, technicianJobs]) => {
-    const filteredTechnicianJobs = technicianJobs.filter((job) => {
-      const jobDate = new Date(job.event_date);
-      return (
-        jobDate.getFullYear() === currentDate.getFullYear() &&
-        jobDate.getMonth() === currentDate.getMonth() &&
-        jobDate.getDate() === currentDate.getDate()
-      );
-    });
-  
-    if (filteredTechnicianJobs.length > 0) {
-      acc[technicianName] = filteredTechnicianJobs;
-    }
-  
-    return acc;
-  }, {});
   
   return (
     <div>
@@ -224,29 +134,9 @@ function StickyHeadTable() {
     })}
 </TableBody>
           </Table>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={rowsPerPage}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
         </TableContainer>
       </Paper>
-      <div style={{ maxWidth: 'YOUR_DESIRED_WIDTH', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16 }}>
-      <IconButton onClick={handlePreviousDate} style={{ backgroundColor: 'transparent' }}>
-        <ArrowBackIcon />
-      </IconButton>
-      <Typography>{currentDate.toDateString()}</Typography>
-      <IconButton onClick={handleNextDate} style={{ backgroundColor: 'transparent' }}>
-        <ArrowForwardIcon />
-      </IconButton>
     </div>
-    </div>
-</div>
   );
   }
   export default StickyHeadTable;

@@ -1,0 +1,33 @@
+.calendar-month {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .weekdays,
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+  
+  .weekday,
+  .day {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+  }
+  
+  .day {
+    border: 1px solid #ccc;
+  }
+  
+  .outside-month {
+    color: #999;
+  }
+  

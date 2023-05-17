@@ -1,57 +1,49 @@
-
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import './Calendar.css';
+// import CalendarView from './CalendarView';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-//new:
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import Switch from '@mui/material/Switch';
-//
 
-// import '@mui/lab/theme-provider';
-// import { ThemeProvider } from '@mui/lab';
-//uninstall the above in my-app and my-app/src
+const getWeekDates = (startDate) => {
+  const weekDates = [];
 
-
-
-
-
-//week
-function getWeekStartDate(date) {
-  const startDate = new Date(date);
-  startDate.setDate(startDate.getDate() - startDate.getDay());
-  return startDate;
-}
-
-function getWeekDates(weekStartDate) {
-  const dates = [];
   for (let i = 0; i < 7; i++) {
-    const date = new Date(weekStartDate);
-    date.setDate(date.getDate() + i);
-    dates.push(date);
+    const newDate = new Date(startDate);
+    newDate.setUTCDate(newDate.getUTCDate() + i);
+    weekDates.push(newDate);
   }
-  return dates;
-}
 
-function StickyHeadTable() {
+  return weekDates;
+};
+
+const getWeekStartDate = (date) => {
+  const weekStart = new Date(date);
+  const day = weekStart.getUTCDay();
+  const diff = weekStart.getUTCDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
+  weekStart.setUTCDate(diff);
+  return weekStart;
+};
+
+
+// const weekStartDate = getWeekStartDate(currentDate);
+
+function CalendarWeek({ currentDate, handleNextDate, handlePreviousDate, filteredJobs }) {
   // const jobs = JobTable();
   const [jobs, setJobs] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  //new:
-  const [currentDate, setCurrentDate] = useState(new Date());
   const [darkMode, setDarkMode] = useState(false);
 
   //dark mode
@@ -61,156 +53,104 @@ function StickyHeadTable() {
   };
 
   //weekly view
-  const [weekStartDate, setWeekStartDate] = useState(getWeekStartDate(currentDate));
+  const weekStartDate = getWeekStartDate(currentDate);
 
-  const handlePreviousWeek = () => {
-    const newWeekStartDate = new Date(weekStartDate);
-    newWeekStartDate.setDate(newWeekStartDate.getDate() - 7);
-    setWeekStartDate(newWeekStartDate);
-  };
+  //get weekrange
+  const getWeekRange = (date) => {
+    const startOfWeek = new Date(date);
+    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(endOfWeek.getDate() + 6);
   
-  const handleNextWeek = () => {
-    const newWeekStartDate = new Date(weekStartDate);
-    newWeekStartDate.setDate(newWeekStartDate.getDate() + 7);
-    setWeekStartDate(newWeekStartDate);
+    return `${startOfWeek.toDateString()} - ${endOfWeek.toDateString()}`;
   };
 
-  useEffect(() => {
-    //new
-    const formattedDate = currentDate.toISOString().slice(0, 10);
-        // Fetch job data from your API
-    //new
-    fetch(`http://localhost:3000/api/jobs?date=${formattedDate}`)
-    //
-    // fetch('http://localhost:3000/api/jobs')
-      .then((response) => response.json())
-      .then((data) => {
-        const groupedData = data.reduce((acc, job) => {
-          const techName = job.technician_name;
-          if (!acc[techName]) {
-            acc[techName] = [];
-          }
-          acc[techName].push(job);
-          return acc;
-        }, {});
-  
-        setJobs(groupedData);
-      })
-      .catch((error) => console.error('Error fetching job data:', error));
-  }, []);
-  
-  //new
-//   const handlePreviousDate = () => {
-//     const newDate = new Date(currentDate);
-//     newDate.setDate(newDate.getDate() - 1);
-//     setCurrentDate(newDate);
-//   };
-  
-//   const handleNextDate = () => {
-//     const newDate = new Date(currentDate);
-//     newDate.setDate(newDate.getDate() + 1);
-//     setCurrentDate(newDate);
-//   };
-  //end new
-
-//   const handleChangePage = (event, newPage) => {
-//     setPage(newPage);
-//   };
-
-//   const handleChangeRowsPerPage = (event) => {
-//     setRowsPerPage(+event.target.value);
-//     setPage(0);
-//   };
-
-//   const jobArrays = Object.values(jobs);
-//   const startHours = jobArrays.reduce((acc, jobArray) => {
-//     return acc.concat(
-//       jobArray
-//         .filter(job => job.event_start_time !== null && job.event_start_time !== undefined)
-//         .map(job => parseInt(job.event_start_time.split(':')[0]))
-//     );
-//   }, []);
-  
-  // const minHour = Math.min(8, ...startHours);
-  // const maxHour = Math.max(17, ...startHours.map(startHour => startHour + 1));
-  
-//   const columns = [
-//     { id: 'day', label: 'Technician', minWidth: 170 },
-//     ...Array.from({ length: 24 }, (v, i) => {
-//       const hour = i < 10 ? `0${i}` : i;
-//       return {
-//         id: `${hour}:00`,
-//         label: `${hour}:00`,
-//         minWidth: 100,
-//         align: 'center',
-//       };
-//     }),
-//   ];
-  
-  // for (let i = 0; i < 24; i++) {
-  //   const hour = i < 10 ? `0${i}` : i;
-  //   columns.push({ id: `${hour}:00`, label: `${hour}:00`, minWidth: 100 });
-  // }
-  
-  //new
-//   const filteredJobs = Object.entries(jobs).reduce((acc, [technicianName, technicianJobs]) => {
-//     const filteredTechnicianJobs = technicianJobs.filter((job) => {
-//       const jobDate = new Date(job.event_date);
-//       return (
-//         jobDate.getFullYear() === currentDate.getFullYear() &&
-//         jobDate.getMonth() === currentDate.getMonth() &&
-//         jobDate.getDate() === currentDate.getDate()
-//       );
-//     });
-  
-//     if (filteredTechnicianJobs.length > 0) {
-//       acc[technicianName] = filteredTechnicianJobs;
-//     }
-  
-//     return acc;
-//   }, {});
-  
   return (
-<div style={{ marginLeft: '125px' }}>
-  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16 }}>
-    <IconButton onClick={handlePreviousWeek} style={{ backgroundColor: 'transparent' }}>
-      <ArrowBackIcon />
-    </IconButton>
-    <Typography>
-      {`${weekStartDate.toDateString()} - ${getWeekDates(weekStartDate)[6].toDateString()}`}
-    </Typography>
-    <IconButton onClick={handleNextWeek} style={{ backgroundColor: 'transparent' }}>
-      <ArrowForwardIcon />
-    </IconButton>
-  </div>
-  <table>
-    <thead>
-      <tr>
-        <th></th> {/* Empty header cell for the hours column */}
-        {getWeekDates(weekStartDate).map((date, index) => (
-          <th key={index}>
-            <Typography>{date.toDateString()}</Typography>
-          </th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {Array.from({ length: 24 }, (_, hour) => (
-        <tr key={hour}>
-          <td>
-            <Typography>{hour}:00</Typography>
-          </td>
-          {getWeekDates(weekStartDate).map((date, index) => (
-            <td key={index}>
-             
-            </td>
-          ))}
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
+    <div style={{ marginLeft: '125px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16 }}>
+      <Typography>
+      {`${weekStartDate.toISOString().slice(0, 10)} - ${getWeekDates(weekStartDate)[6].toISOString().slice(0, 10)}`}
+      </Typography>
+      </div>
+      <TableContainer className="week-table-container" sx={{ maxHeight: 500 }} component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell></TableCell> {/* Empty header cell for the hours column */}
+              {getWeekDates(weekStartDate).map((date, index) => (
+                <TableCell key={index}>
+                  <Typography>{date ? date.toDateString() : 'Invalid date'}</Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Array.from({ length: 24 }, (_, hour) => (
+              <TableRow key={hour}>
+                <TableCell>
+                  <Typography>{hour}:00</Typography>
+                </TableCell>
+                {getWeekDates(weekStartDate).map((date, index) => {
+                    if (!date) {
+                      return <TableCell key={index}>Invalid date</TableCell>;
+                    }
+                    // Find the jobs for the current date and hour
+                    // const jobsForDateAndHour = Object.entries(filteredJobs).flatMap(([technicianName, technicianJobs]) => (
+                    //   technicianJobs.filter(job => {
+                    //     const jobStartTime = new Date(job.event_start_time);
+                    //     const jobDate = new Date(job.event_date + 'T00:00:00Z');
+                    //     return jobDate.toISOString().slice(0, 10) === date.toISOString().slice(0, 10) && jobStartTime.getHours() === hour;
+                    //   })
+                    // ));
+                    console.log('Filtered Jobs prop:', filteredJobs);
+                    const jobsForDateAndHour = Object.entries(filteredJobs).flatMap(([technicianName, technicianJobs]) => {
+                      const filtered = technicianJobs.filter(job => {
+                        const jobStartTime = new Date(`${job.event_date}T${job.event_start_time}`);
+                        const jobDate = new Date(job.event_date + 'T00:00:00Z');
+                        console.log('Job Start Time:', jobStartTime);
+                        console.log('Job Date:', jobDate);
+                        console.log('Current Date:', date.toISOString().slice(0, 10));
+                        console.log('Current Hour:', hour);
+                        return jobDate.toISOString().slice(0, 10) === date.toISOString().slice(0, 10) && jobStartTime.getHours() === hour;
+                      });
+                      console.log('Filtered jobs for', technicianName, 'at', hour, 'on', date.toISOString().slice(0, 10), ':', filtered);
+                      return filtered;
+                    });
+                    
+                    
+                      
+                  return (
+                    <TableCell key={index}>
+                      {jobsForDateAndHour.map((job, jobIndex) => (
+                        <Tooltip
+                          key={jobIndex}
+                          title={
+                            <React.Fragment>
+                              <Typography variant="subtitle2">Deal ID: {job.deal_id}</Typography>
+                              <Typography variant="subtitle2">Deal Notes: {job.deal_notes || 'N/A'}</Typography>
+                              <Typography variant="subtitle2">Stage ID: {job.stage_id}</Typography>
+                              <Typography variant="subtitle2">City Name: {job.city_name || 'N/A'}</Typography>
+                              <Typography variant="subtitle2">State Name: {job.state_name || 'N/A'}</Typography>
+                              <Typography variant="subtitle2">Community Name: {job.community_name || 'N/A'}</Typography>
+                            </React.Fragment>
+                          }
+                          arrow
+                        >
+                          <div style={{ backgroundColor: 'red', color: 'white', width: '100%', height: '100%' }}>
+                            {job.title}
+                          </div>
+                        </Tooltip>
+                      ))}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
   }
-  export default StickyHeadTable;
+  export default CalendarWeek;
   
