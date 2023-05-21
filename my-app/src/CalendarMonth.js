@@ -5,42 +5,62 @@ import {
   eachDayOfInterval,
   startOfWeek,
   endOfWeek,
-  format,
-  addMonths,
-  subMonths,
+  format
 } from 'date-fns';
 import './CalendarMonth.css';
+import { Typography, Grid } from '@mui/material';
 
-function CalendarMonth({ currentDate, handleNextDate, handlePreviousDate, filteredJobs }) {
-  const monthStartDate = startOfMonth(currentDate);
-  const monthEndDate = endOfMonth(currentDate);
-  const calendarStartDate = startOfWeek(monthStartDate);
-  const calendarEndDate = endOfWeek(monthEndDate);
+function CalendarMonth({ currentDate, handleNextDate, handlePreviousDate, filteredJobs = {}}) {
+    const monthStartDate = startOfMonth(currentDate);
+    const monthEndDate = endOfMonth(currentDate);
+    const calendarStartDate = startOfWeek(monthStartDate);
+    const calendarEndDate = endOfWeek(monthEndDate);
+  
+    const days = eachDayOfInterval({ start: calendarStartDate, end: calendarEndDate });
 
-  const days = eachDayOfInterval({ start: calendarStartDate, end: calendarEndDate });
+    const calendarRows = [];
+    let week = [];
+    days.forEach((day, index) => {
+      week.push(day);
+      if ((index + 1) % 7 === 0 || index === days.length - 1) {
+        calendarRows.push(week);
+        week = [];
+      }
+    });
 
-  return (
-    <div className="calendar-month">
-      <div className="header">
-        <button onClick={() => handlePreviousDate(subMonths(currentDate, 1))}>&lt;</button>
-        <span>{format(currentDate, 'MMMM yyyy')}</span>
-        <button onClick={() => handleNextDate(addMonths(currentDate, 1))}>&gt;</button>
-      </div>
-      <div className="weekdays">
+    const hasJobOnDate = (day) => {
+        return Object.entries(filteredJobs).some(([technicianName, technicianJobs]) =>
+          technicianJobs.some((job) => job.event_date === day.toISOString().slice(0, 10))
+        );
+      };
+
+return (
+    <Grid container direction="column" spacing={2} sx={{ marginTop: 2 }}>
+      <Grid container justifyContent="center" spacing={1}>
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((weekday) => (
-          <div key={weekday} className="weekday">
-            {weekday}
-          </div>
+          <Grid key={weekday} item xs>
+            <Typography align="center" variant="subtitle1">{weekday}</Typography>
+          </Grid>
         ))}
-      </div>
-      <div className="days">
-        {days.map((day) => (
-          <div key={day.toISOString()} className={`day ${format(day, 'MMM') !== format(currentDate, 'MMM') ? 'outside-month' : ''}`}>
-            {format(day, 'd')}
-          </div>
-        ))}
-      </div>
-    </div>
+      </Grid>
+      {calendarRows.map((week, weekIndex) => (
+        <Grid key={`week-${weekIndex}`} container justifyContent="center" spacing={1}>
+        {week.map((day) => (
+          <Grid key={day.toISOString()} item xs>
+            <Typography align="center">
+              {format(day, 'd')}
+              {hasJobOnDate(day) && (
+                <Typography variant="caption" component="span" color="secondary">
+                  {' '}
+                  •
+                </Typography>
+              )}
+            </Typography>
+          </Grid>
+          ))}
+        </Grid>
+      ))}
+    </Grid>
   );
 }
 

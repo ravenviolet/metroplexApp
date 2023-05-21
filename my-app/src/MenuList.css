@@ -2,8 +2,47 @@
     min-height: 1000px;
     height: 1000px;
     position: fixed;
+    background-color: #00719A;
+    border-radius: 0;
 }
 
 .dashboard-button {
     margin-left: 110px;
+}
+
+.MuiMenuList-root {
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+
+.MuiMenuItem-root {
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    color: #FFFFFF;
+    margin-top: 10px;
+}
+
+.MuiMenuItem-root:hover {
+    color: #FFFF00
+}
+
+@media screen and (min-width: 768px) {
+    .menu-container {
+        min-height: 1000px;
+        height: 1000px;
+        position: fixed;
+    }
+    
+    .dashboard-button {
+        margin-left: 110px;
+    }
+
+    .MuiMenuList-root {
+        font-family: "Poppins", sans-serif;
+        font-weight: bold;
+        font-size: 14px;
+    }
 }

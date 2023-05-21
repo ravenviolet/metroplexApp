@@ -88,7 +88,21 @@ const jobSchema = new mongoose.Schema({
   city_name: String,
   state_name: String,
   community_name: String,
-  technician_name: String,
+  // technician_name: String,
+  technician_fields: {
+    active_flag: Boolean,
+    name: String,
+    email: {
+        value: String,
+        primary: Boolean,
+    },
+    phone: {
+        value: Number,
+        primary: Boolean,
+    },
+    owner_id: Number,
+    value: Number,
+},
   timezone_id: String,
   event_date: String,
   event_start_time: String

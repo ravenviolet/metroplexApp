@@ -3,6 +3,43 @@ const  { Job, Technician } = require('./models/model');
 module.exports = { mapDeal, mapTechnician };
 
 function mapDeal(pipedriveDeal) {
+
+  let technicianData = pipedriveDeal['0c83313fba78b12676463126f74527552763ec8e'];
+
+  // Default Technician Fields
+  let technicianFields = {
+    active_flag: false,
+    name: '',
+    email: {
+        value: null,
+        primary: null,
+    },
+    phone: {
+        value: null,
+        primary: null,
+    },
+    owner_id: null,
+    value: null,
+  };
+
+  // If technicianData is not null, map its values
+  if(technicianData) {
+    technicianFields = {
+      active_flag: technicianData.active_flag ?? false,
+      name: technicianData.name ?? '',
+      email: {
+          value: technicianData.email?.value ?? null,  // Added optional chaining (?)
+          primary: technicianData.email?.primary ?? null,  // Added optional chaining (?)
+      },
+      phone: {
+          value: technicianData.phone?.value ?? null,  // Added optional chaining (?)
+          primary: technicianData.phone?.primary ?? null,  // Added optional chaining (?)
+      },
+      owner_id: technicianData.owner_id ?? null,
+      value: technicianData.value ?? null,
+    };
+  }
+
   // Map Pipedrive deal fields to Mongoose Job model fields here
   const mappedDeal = {
     deal_id: pipedriveDeal.id,
@@ -87,7 +124,8 @@ function mapDeal(pipedriveDeal) {
     city_name: pipedriveDeal['77b85cff28201abfec9f626c357ceec59e075636_locality'] ?? '',
     state_name: pipedriveDeal['77b85cff28201abfec9f626c357ceec59e075636_admin_area_level_1'] ?? '',
     community_name: pipedriveDeal['bb04ca63627f17ecb02aac6a7260876c6492079f'] ?? '',
-    technician_name: pipedriveDeal['0c83313fba78b12676463126f74527552763ec8e']?.name ?? 'Default Name',
+    // technician_name: pipedriveDeal['0c83313fba78b12676463126f74527552763ec8e']?.name ?? 'Default Name',
+    technician_fields: technicianFields,
     timezone_id: pipedriveDeal['52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f_timezone_i'] ?? '',
     event_date: pipedriveDeal['a5ed135fe1d0c912d151685da4f86620106e074f'] ?? '',
     event_start_time: pipedriveDeal['52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f'] ?? ''

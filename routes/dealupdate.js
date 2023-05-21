@@ -88,13 +88,60 @@ router.post('/', async (req, res) => {
         '77b85cff28201abfec9f626c357ceec59e075636_locality': city_name,
         '77b85cff28201abfec9f626c357ceec59e075636_admin_area_level_1': state_name,
         'bb04ca63627f17ecb02aac6a7260876c6492079f': community_name,
-        '0c83313fba78b12676463126f74527552763ec8e': technician_name,
+        '0c83313fba78b12676463126f74527552763ec8e': technicianId,
         '52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f_timezone_i': timezone_id,
         'a5ed135fe1d0c912d151685da4f86620106e074f': event_date,
         '52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f': event_start_time
 
       } = updatedDeal;
 
+      //need error handling for MongoDB queries
+      const deal_id = dealId;
+
+      // Check if a job with the given deal_id and technicianId exists
+      const existingJob = await Job.findOne({
+        deal_id: deal_id,
+        'technician_fields.value': technicianId,
+      });
+      
+      // If the job doesn't exist, fetch the deal details and create a new job
+      if (!existingJob) {
+        try {
+          console.log('Updating Job Field');
+          const api = new pipedrive.DealsApi(defaultClient);
+          
+          // Fetch the deal details
+          const { data: deal } = await api.getDeal(deal_id);
+      
+          // Extract the technician details from the deal
+          const newTechnician = deal['0c83313fba78b12676463126f74527552763ec8e'];
+      
+          // If the technician details exist, update the job
+          if (newTechnician) {
+            await Job.updateOne(
+              { deal_id: dealId },
+              {
+                $set: {
+                  'technician_fields.active_flag': newTechnician.active_flag,
+                  'technician_fields.name': newTechnician.name,
+                  'technician_fields.email.value': newTechnician.email.value,
+                  'technician_fields.email.primary': newTechnician.email.primary,
+                  'technician_fields.phone.value': newTechnician.phone.value,
+                  'technician_fields.phone.primary': newTechnician.phone.primary,
+                  'technician_fields.owner_id': newTechnician.owner_id,
+                  'technician_fields.value': newTechnician.value,
+                },
+              }
+            );
+          } else {
+            console.log(`Technician details not available for deal: ${deal_id}`);
+          }
+        } catch (error) {
+          console.error('Error updating job field:', error);
+        }
+      }
+      
+      
       await Job.updateOne(
         { deal_id: dealId },
         {
@@ -158,7 +205,7 @@ router.post('/', async (req, res) => {
             city_name,
             state_name,
             community_name,
-            technician_name,
+            // 'technician_fields.value': technicianId,
             timezone_id,
             event_date,
             event_start_time

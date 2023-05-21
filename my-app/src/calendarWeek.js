@@ -1,12 +1,6 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
-import './Calendar.css';
-// import CalendarView from './CalendarView';
+// import './calendarWeek.css';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,71 +9,44 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
+import { addDays, startOfWeek } from 'date-fns';
 
 const getWeekDates = (startDate) => {
   const weekDates = [];
 
   for (let i = 0; i < 7; i++) {
-    const newDate = new Date(startDate);
-    newDate.setUTCDate(newDate.getUTCDate() + i);
+    const newDate = addDays(startDate, i);
     weekDates.push(newDate);
   }
-
   return weekDates;
 };
 
 const getWeekStartDate = (date) => {
-  const weekStart = new Date(date);
-  const day = weekStart.getUTCDay();
-  const diff = weekStart.getUTCDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
-  weekStart.setUTCDate(diff);
+  const weekStart = startOfWeek(date, { weekStartsOn: 0 }); // weekStartsOn: 1 means week starts on Monday
   return weekStart;
 };
 
-
-// const weekStartDate = getWeekStartDate(currentDate);
-
-function CalendarWeek({ currentDate, handleNextDate, handlePreviousDate, filteredJobs }) {
-  // const jobs = JobTable();
-  const [jobs, setJobs] = useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [darkMode, setDarkMode] = useState(false);
-
-  //dark mode
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.body.classList.toggle('dark-mode');
-  };
-
-  //weekly view
+function CalendarWeek({ currentDate, filteredJobs }) {
+  // weekly view
   const weekStartDate = getWeekStartDate(currentDate);
-
-  //get weekrange
-  const getWeekRange = (date) => {
-    const startOfWeek = new Date(date);
-    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(endOfWeek.getDate() + 6);
-  
-    return `${startOfWeek.toDateString()} - ${endOfWeek.toDateString()}`;
-  };
 
   return (
     <div style={{ marginLeft: '125px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16 }}>
-      <Typography>
-      {`${weekStartDate.toISOString().slice(0, 10)} - ${getWeekDates(weekStartDate)[6].toISOString().slice(0, 10)}`}
-      </Typography>
       </div>
-      <TableContainer className="week-table-container" sx={{ maxHeight: 500 }} component={Paper}>
+      <TableContainer className="week-table-container" sx={{ maxHeight: 1000 }} component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell></TableCell> {/* Empty header cell for the hours column */}
-              {getWeekDates(weekStartDate).map((date, index) => (
-                <TableCell key={index}>
-                  <Typography>{date ? date.toDateString() : 'Invalid date'}</Typography>
+            {getWeekDates(weekStartDate).map((date, index) => (
+              <TableCell key={index} className="table-cell">
+                {date
+                  ? <div className="date-container">
+                      <Typography className="date-item">{date.toLocaleDateString('en-US', { weekday: 'short' })}</Typography>
+                      <Typography className="date-item">{date.toLocaleDateString('en-US', { day: 'numeric' })}</Typography>
+                    </div>
+                  : 'Invalid date'}
                 </TableCell>
               ))}
             </TableRow>
@@ -88,20 +55,12 @@ function CalendarWeek({ currentDate, handleNextDate, handlePreviousDate, filtere
             {Array.from({ length: 24 }, (_, hour) => (
               <TableRow key={hour}>
                 <TableCell>
-                  <Typography>{hour}:00</Typography>
+                  <Typography className='myTypographyHours'>{hour}:00</Typography>
                 </TableCell>
                 {getWeekDates(weekStartDate).map((date, index) => {
                     if (!date) {
                       return <TableCell key={index}>Invalid date</TableCell>;
                     }
-                    // Find the jobs for the current date and hour
-                    // const jobsForDateAndHour = Object.entries(filteredJobs).flatMap(([technicianName, technicianJobs]) => (
-                    //   technicianJobs.filter(job => {
-                    //     const jobStartTime = new Date(job.event_start_time);
-                    //     const jobDate = new Date(job.event_date + 'T00:00:00Z');
-                    //     return jobDate.toISOString().slice(0, 10) === date.toISOString().slice(0, 10) && jobStartTime.getHours() === hour;
-                    //   })
-                    // ));
                     console.log('Filtered Jobs prop:', filteredJobs);
                     const jobsForDateAndHour = Object.entries(filteredJobs).flatMap(([technicianName, technicianJobs]) => {
                       const filtered = technicianJobs.filter(job => {
@@ -116,9 +75,6 @@ function CalendarWeek({ currentDate, handleNextDate, handlePreviousDate, filtere
                       console.log('Filtered jobs for', technicianName, 'at', hour, 'on', date.toISOString().slice(0, 10), ':', filtered);
                       return filtered;
                     });
-                    
-                    
-                      
                   return (
                     <TableCell key={index}>
                       {jobsForDateAndHour.map((job, jobIndex) => (
@@ -136,7 +92,7 @@ function CalendarWeek({ currentDate, handleNextDate, handlePreviousDate, filtere
                           }
                           arrow
                         >
-                          <div style={{ backgroundColor: 'red', color: 'white', width: '100%', height: '100%' }}>
+                          <div style={{ backgroundColor: 'red', color: 'white', height: '100%', margin: '0', padding: '0', overflowWrap: 'break-word',     alignItems: 'center', justifyContent: 'center', overflowWrap: 'break-word', whiteSpace: 'normal', maxWidth: '75px'}}>
                             {job.title}
                           </div>
                         </Tooltip>

@@ -1,0 +1,77 @@
+.myTypography {
+    font-family: "Poppins", sans-serif;
+    /* font-weight: bold; */
+    font-size: 14px;
+    color: black;
+    margin-top: 10px;
+}
+
+.myTypographyHours {
+    font-family: "Poppins", sans-serif;
+    /* font-weight: bold; */
+    font-size: 14px;
+    color: black;
+    /* margin-top: 10px; */
+}
+
+  .hour-container,
+  .job-container {
+    /* Adjust these values as needed to create the desired visual effect */
+    padding: 0px;
+    justify-content: center;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+  }
+
+  .date-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .date-item {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 5px;
+    width: 1fr;
+  }
+  .hour-container {
+    grid-column: 1;
+  }
+  
+  .date-container {
+    grid-column: span 1;
+  }
+  
+  .table-cell {
+    grid-column: span 1;
+    margin: 0;
+  }
+  
+  .job-container {
+    grid-column: span 1;
+  }
+/* 
+.MuiTableCell-root {
+    font-family: "Poppins", sans-serif;
+    /* font-weight: bold; */
+    /* font-size: 14px;
+    color: black;
+    margin: 0px;
+    width: 50px;
+    padding: 0px;
+    height: 40px;
+}  */
+
+.MuiTableCell-root {
+    max-width: 75px;
+}
+.MuiTableRow-root {
+    font-family: "Poppins", sans-serif;
+    /* font-weight: bold; */
+    font-size: 14px;
+    color: black;
+    margin: 0px;
+    /* max-width: 50px; */
+}

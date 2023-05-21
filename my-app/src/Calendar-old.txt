@@ -1,4 +1,7 @@
 import * as React from 'react';
+// import { useState, useEffect } from 'react';
+// import { useState } from 'react';
+// import './Calendar.css';
 import './CalendarView';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -9,28 +12,67 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { format, eachHourOfInterval } from 'date-fns';
+import {
+  // startOfMonth,
+  // endOfMonth,
+  // eachDayOfInterval,
+  // startOfWeek,
+  // endOfWeek,
+  format,
+  // addMonths,
+  // subMonths,
+  // addHours, 
+  // addMinutes, 
+  // addSeconds, 
+  // subHours, 
+  // subMinutes, 
+  // subSeconds,
+  eachHourOfInterval
+  // parse,
+  // getHours
+} from 'date-fns';
 
+
+// const StickyHeadTable = ({ currentDate, handleNextDate, handlePreviousDate, filteredJobs }) => {
   const StickyHeadTable = ({ filteredJobs }) => {
+  // const jobs = JobTable();
+  // const [jobs, setJobs] = useState([]);
+  // const [page, setPage] = React.useState(0);
   const [page] = React.useState(0);
+  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsPerPage] = React.useState(10);
+  //new:
+  // const [currentDate, setCurrentDate] = useState(new Date());
+  // const [darkMode, setDarkMode] = useState(false);
 
+  //dark mode
+  // const toggleDarkMode = () => {
+  //   setDarkMode(!darkMode);
+  //   document.body.classList.toggle('dark-mode');
+  // };
+  
   // Set the default start and end hours
-  const defaultStartHour = 8;
-  const defaultEndHour = 20;
+const defaultStartHour = 8;
+const defaultEndHour = 20;
 
   // Generate the array of hours within the default range
-  const defaultHours = eachHourOfInterval({
-    start: new Date().setHours(defaultStartHour),
-    end: new Date().setHours(defaultEndHour),
-  });
+const defaultHours = eachHourOfInterval({
+  start: new Date().setHours(defaultStartHour),
+  end: new Date().setHours(defaultEndHour),
+});
 
-  let allHours = defaultHours;
+let allHours = defaultHours;
+
+//   const hours = eachHourOfInterval({
+//     start: new Date().setHours(0),
+//     end: new Date().setHours(23),
+//   });
   
   const columns = [
     { id: 'day', 
     label: 'Technician', 
     minWidth: 100,
+    // style: { position: 'sticky', left: 0, background: '#fff', zIndex: 1 },
   },
     ...allHours.map((hour) => {
       const formattedHour = format(hour, 'HH:00');
@@ -93,6 +135,13 @@ import { format, eachHourOfInterval } from 'date-fns';
                   const startHour = parseInt(job.event_start_time.split(':')[0]);
                   const endHour = startHour + 1; // Add one hour to the start time
                   return currentHour >= startHour && currentHour < endHour;
+              // const currentHour = parseInt(column.id.split(':')[0]);
+              // const matchingJob = technicianJobs.find((job) => {
+              //   if (job.event_start_time) {
+              //     const startHour = getHours(parse(job.event_start_time, 'HH:mm', new Date()));
+              //     console.log(startHour);
+              //     const endHour = getHours(addHours(parse(job.event_start_time, 'HH:mm', new Date()), 1));
+              //     return currentHour >= startHour && currentHour < endHour;
                 }
                 return false;
               });

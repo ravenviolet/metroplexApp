@@ -1,0 +1,28 @@
+1. When initially clicking on Week after react loading
+2. Another Error
+3. Cannot read properties of Null
+
+1. Local
+Exception
+: 
+Error at describeBuiltInComponentFrame (http://localhost:3001/static/js/bundle.js:34154:19) at describeFiber (http://localhost:3001/static/js/bundle.js:34366:18) at getStackByFiberInDevAndProd (http://localhost:3001/static/js/bundle.js:34390:19) at getCurrentFiberStackInDev (http://localhost:3001/static/js/bundle.js:34571:16) at ReactDebugCurrentFrame.getStackAddendum (http://localhost:3001/static/js/bundle.js:63292:20) at printWarning (http://localhost:3001/static/js/bundle.js:33248:44) at error (http://localhost:3001/static/js/bundle.js:33239:11) at validateDOMNesting (http://localhost:3001/static/js/bundle.js:42709:11) at createTextInstance (http://localhost:3001/static/js/bundle.js:42833:9) at completeWork (http://localhost:3001/static/js/bundle.js:52455:44)
+this
+: 
+undefined
+match
+: 
+undefined
+name
+: 
+"tr"
+ownerFn
+: 
+undefined
+source
+: 
+undefined
+Closure
+Closure (./node_modules/react-dom/cjs/react-dom.development.js)
+Closure
+Window
+Global
