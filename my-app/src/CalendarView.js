@@ -2,78 +2,23 @@ import React, { useState, useEffect } from 'react';
 import StickyHeadTable from './Calendar';
 import CalendarWeek from './calendarWeek';
 import CalendarMonth from './CalendarMonth';
-// import './Calendar.css';
+import { filterJobsByDate, filterJobsByWeek } from './jobsFilter';
+import useFetchJobs from './useFetchJobs';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { format, isValid, parseISO, startOfDay, isWithinInterval, isSameDay, addDays, subDays, addWeeks, subWeeks, startOfWeek, endOfWeek, subMonths, addMonths } from 'date-fns';
-
-const filterJobsByDate = (jobs, date) => {
-    if (!isValid(date)) {
-      console.error('Invalid date passed to filterJobsByDate:', date);
-      return {};
-    }
-  
-    const utcDate = startOfDay(date);
-  
-    return Object.entries(jobs).reduce((acc, [technicianName, technicianJobs]) => {
-      const filteredTechnicianJobs = technicianJobs.filter((job) => {
-        // Check if the date string is valid
-        const jobDate = parseISO(job.event_date);
-        if (!isValid(jobDate)) {
-          console.error('Invalid date string in job:', job);
-          return false;
-        }
-  
-        // Compare the dates using isSameDay from date-fns
-        return isSameDay(jobDate, utcDate);
-      });
-  
-      if (filteredTechnicianJobs.length > 0) {
-        acc[technicianName] = filteredTechnicianJobs;
-      }
-  
-      return acc;
-    }, {});
-  };
-
-const filterJobsByWeek = (jobs, weekStartDate) => {
-  if (!isValid(weekStartDate)) {
-    console.error('Invalid week start date passed to filterJobsByWeek:', weekStartDate);
-    return {};
-  }
-
-  // Calculate the end date of the week by adding 6 days to the start date
-  const weekEndDate = addDays(weekStartDate, 6);
-
-  return Object.entries(jobs).reduce((acc, [technicianName, technicianJobs]) => {
-    const filteredTechnicianJobs = technicianJobs.filter((job) => {
-      // Check if the date string is valid
-      const jobDate = parseISO(job.event_date);
-      if (!isValid(jobDate)) {
-        console.error('Invalid date string in job:', job);
-        return false;
-      }
-
-      return isWithinInterval(jobDate, { start: weekStartDate, end: weekEndDate });
-    });
-
-    if (filteredTechnicianJobs.length > 0) {
-      acc[technicianName] = filteredTechnicianJobs;
-    }
-    
-    return acc;
-  }, {});
-};
+import { format, addDays, subDays, addWeeks, subWeeks, startOfWeek, endOfWeek, subMonths, addMonths } from 'date-fns';
 
 function CalendarView() {
+
   const [currentDate, setCurrentDate] = useState(new Date());
+  const { jobs, error } = useFetchJobs(currentDate);
   const [filteredJobs, setFilteredJobs] = useState([]);
 
-  const [jobs, setJobs] = useState([]);
+  const [setJobs] = useState([]);
 
   //day toggle 
   //possible issue
@@ -111,46 +56,20 @@ function CalendarView() {
   };
 
   const getWeekStartDate = (date) => {
-    return startOfWeek(date, { weekStartsOn: 1 }); // 1 for Monday as the start of the week
+    return startOfWeek(date, { weekStartsOn: 1 }); 
+    // 1 for Monday as the start of the week
   };
 
   useEffect(() => {
-    // Assuming that `jobs` is the unfiltered data
     let filtered;
     if (view === 'day') {
       filtered = filterJobsByDate(jobs, currentDate);
     } else if (view === 'week') {
       filtered = filterJobsByWeek(jobs, getWeekStartDate(currentDate));
     }
+
     setFilteredJobs(filtered);
   }, [currentDate, view, jobs]);
-
-  useEffect(() => {
-    const formattedDate = currentDate.toISOString().slice(0, 10);
-  
-    // Fetch job data using the event_date as a query parameter
-    fetch(`http://localhost:3000/api/jobs?event_date=${formattedDate}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Filter out inactive deals and deals with an empty event_date
-        const validDeals = data.filter((deal) => deal.active !== false && deal.event_date !== '');
-  
-        // Group the remaining deals by technician name
-        const groupedData = validDeals.reduce((acc, job) => {
-          const techName = job.technician_fields.name;
-          if (!acc[techName]) {
-            acc[techName] = [];
-          }
-          acc[techName].push(job);
-          return acc;
-        }, {});
-  
-        setJobs(groupedData);
-        // Set the filteredJobs state after fetching and grouping the data
-        setFilteredJobs(filterJobsByDate(groupedData, currentDate));
-      })
-      .catch((error) => console.error('Error fetching job data:', error));
-  }, [currentDate]);
 
   return (
     <div>
@@ -250,45 +169,4 @@ function CalendarView() {
 //       console.log(`Filtered Jobs for ${technicianName}:`, filteredTechnicianJobs);
 //       return acc;
 //     }, {});
-//   };
-
-//   const filterJobsByWeek = (jobs, weekStartDate) => {
-   
-//     if (!weekStartDate || isNaN(weekStartDate.getTime())) {
-//         console.error('Invalid week start date passed to filterJobsByWeek:', weekStartDate);
-//         return {};
-//       }
-
-//     // Calculate the end date of the week by adding 6 days to the start date
-//     const weekEndDate = new Date(weekStartDate);
-//     weekEndDate.setDate(weekEndDate.getDate() + 6);
-//     console.log('Week Start Date:', weekStartDate.toISOString());
-//     console.log('Week End Date:', weekEndDate.toISOString());
-//     return Object.entries(jobs).reduce((acc, [technicianName, technicianJobs]) => {
-//       const filteredTechnicianJobs = technicianJobs.filter((job) => {
-//         // Check if the date string is valid
-
-
-//         if (!job.event_date || isNaN(new Date(job.event_date).getTime())) {
-//           console.error('Invalid date string in job:', job);
-//           return false;
-//         }
-  
-//         // Create a new date object without timezone adjustments
-//         const jobDate = new Date(job.event_date + 'T00:00:00Z');
-        
-//         console.log('Job Date:', jobDate.toISOString());
-//         console.log('Is Job in Week Range:', jobDate >= weekStartDate && jobDate <= weekEndDate);
-//         // Check if the job date is within the range of the week (inclusive)
-//         return jobDate >= weekStartDate && jobDate <= weekEndDate;
-//       });
-  
-//       if (filteredTechnicianJobs.length > 0) {
-//         acc[technicianName] = filteredTechnicianJobs;
-//       }
-      
-//       console.log(`Filtered Jobs for ${technicianName}:`, filteredTechnicianJobs);
-//       return acc;
-//     }, {});
-    
 //   };

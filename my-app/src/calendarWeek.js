@@ -38,7 +38,7 @@ function CalendarWeek({ currentDate, filteredJobs }) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell></TableCell> {/* Empty header cell for the hours column */}
+              <TableCell><p>Hours</p></TableCell>
             {getWeekDates(weekStartDate).map((date, index) => (
               <TableCell key={index} className="table-cell">
                 {date
@@ -59,20 +59,14 @@ function CalendarWeek({ currentDate, filteredJobs }) {
                 </TableCell>
                 {getWeekDates(weekStartDate).map((date, index) => {
                     if (!date) {
-                      return <TableCell key={index}>Invalid date</TableCell>;
+                      return <TableCell key={index}>{"Invalid date".trim()}</TableCell>;
                     }
-                    console.log('Filtered Jobs prop:', filteredJobs);
-                    const jobsForDateAndHour = Object.entries(filteredJobs).flatMap(([technicianName, technicianJobs]) => {
+                    const jobsForDateAndHour = Object.entries(filteredJobs).map(([technicianJobs]) => {
                       const filtered = technicianJobs.filter(job => {
                         const jobStartTime = new Date(`${job.event_date}T${job.event_start_time}`);
                         const jobDate = new Date(job.event_date + 'T00:00:00Z');
-                        console.log('Job Start Time:', jobStartTime);
-                        console.log('Job Date:', jobDate);
-                        console.log('Current Date:', date.toISOString().slice(0, 10));
-                        console.log('Current Hour:', hour);
                         return jobDate.toISOString().slice(0, 10) === date.toISOString().slice(0, 10) && jobStartTime.getHours() === hour;
                       });
-                      console.log('Filtered jobs for', technicianName, 'at', hour, 'on', date.toISOString().slice(0, 10), ':', filtered);
                       return filtered;
                     });
                   return (
@@ -92,7 +86,7 @@ function CalendarWeek({ currentDate, filteredJobs }) {
                           }
                           arrow
                         >
-                          <div style={{ backgroundColor: 'red', color: 'white', height: '100%', margin: '0', padding: '0', overflowWrap: 'break-word',     alignItems: 'center', justifyContent: 'center', overflowWrap: 'break-word', whiteSpace: 'normal', maxWidth: '75px'}}>
+                          <div style={{ backgroundColor: 'red', color: 'white', height: '100%', margin: '0', padding: '0', overflowWrap: 'break-word', alignItems: 'center', justifyContent: 'center', whiteSpace: 'normal', maxWidth: '75px'}}>
                             {job.title}
                           </div>
                         </Tooltip>
@@ -109,4 +103,18 @@ function CalendarWeek({ currentDate, filteredJobs }) {
   );
   }
   export default CalendarWeek;
+
+  // const jobsForDateAndHour = Object.entries(filteredJobs).map(([technicianName, technicianJobs]) => {
+  //   const filtered = technicianJobs.filter(job => {
+  //     const jobStartTime = new Date(`${job.event_date}T${job.event_start_time}`);
+  //     const jobDate = new Date(job.event_date + 'T00:00:00Z');
+  //     // console.log('Job Start Time:', jobStartTime);
+  //     // console.log('Job Date:', jobDate);
+  //     // console.log('Current Date:', date.toISOString().slice(0, 10));
+  //     // console.log('Current Hour:', hour);
+  //     return jobDate.toISOString().slice(0, 10) === date.toISOString().slice(0, 10) && jobStartTime.getHours() === hour;
+  //   });
+  //   // console.log('Filtered jobs for', technicianName, 'at', hour, 'on', date.toISOString().slice(0, 10), ':', filtered);
+  //   return filtered;
+  // });
   
