@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './CalendarView';
+// import './CalendarView';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -72,6 +72,7 @@ import { format, eachHourOfInterval } from 'date-fns';
   {Object.entries(filteredJobs)
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
     .map(([technicianName, technicianJobs]) => {
+      console.log('TECHJOBS-DAY:', technicianJobs);
       return (
         <TableRow hover role="checkbox" tabIndex={-1} key={technicianName}>
           {columns.map((column, columnIndex) => {

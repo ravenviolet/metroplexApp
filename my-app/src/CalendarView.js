@@ -64,8 +64,12 @@ function CalendarView() {
     let filtered;
     if (view === 'day') {
       filtered = filterJobsByDate(jobs, currentDate);
+      console.log('Filtered Jobs', filtered);
+      console.log('Jobs', jobs);
     } else if (view === 'week') {
       filtered = filterJobsByWeek(jobs, getWeekStartDate(currentDate));
+      console.log('Filtered Jobs - Week', filtered);
+      console.log('Jobs - Week', jobs);
     }
 
     setFilteredJobs(filtered);

@@ -6,9 +6,10 @@ import MenuListComposition from './MenuList';
 import "./MenuList.css";
 import "./Calendar.css";
 import CalendarView from './CalendarView';
-// import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 // import theme from './Theme';
 // import JobDetails from './Information';
+
 
 function App() {
 

@@ -10,6 +10,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
 import { addDays, startOfWeek } from 'date-fns';
+// import { useTheme } from '@mui/styles';
+// import { makeStyles } from '@mui/styles';
+
+
 
 const getWeekDates = (startDate) => {
   const weekDates = [];
@@ -27,7 +31,10 @@ const getWeekStartDate = (date) => {
 };
 
 function CalendarWeek({ currentDate, filteredJobs }) {
+  // const theme = useTheme();
+  // console.log('CALENDARWEEK', filteredJobs);
   // weekly view
+  // const classes = useStyles();
   const weekStartDate = getWeekStartDate(currentDate);
 
   return (
@@ -40,7 +47,7 @@ function CalendarWeek({ currentDate, filteredJobs }) {
             <TableRow>
               <TableCell><p>Hours</p></TableCell>
             {getWeekDates(weekStartDate).map((date, index) => (
-              <TableCell key={index} className="table-cell">
+              <TableCell key={index} className="MuiTableCell-root">
                 {date
                   ? <div className="date-container">
                       <Typography className="date-item">{date.toLocaleDateString('en-US', { weekday: 'short' })}</Typography>
@@ -61,21 +68,27 @@ function CalendarWeek({ currentDate, filteredJobs }) {
                     if (!date) {
                       return <TableCell key={index}>{"Invalid date".trim()}</TableCell>;
                     }
-                    const jobsForDateAndHour = Object.entries(filteredJobs).map(([technicianJobs]) => {
-                      const filtered = technicianJobs.filter(job => {
+                    // console.log('TECHJOBSbefore:', filteredJobs);
+                    const jobsForDateAndHour = Object.entries(filteredJobs).map(([ technicianName, technicianJobs]) => {
+                      // console.log('TECHJOBSafter:', filteredJobs);
+                      const filtered = technicianJobs.find((job) => {
                         const jobStartTime = new Date(`${job.event_date}T${job.event_start_time}`);
                         const jobDate = new Date(job.event_date + 'T00:00:00Z');
                         return jobDate.toISOString().slice(0, 10) === date.toISOString().slice(0, 10) && jobStartTime.getHours() === hour;
                       });
-                      return filtered;
-                    });
+                      return { technicianName, job: filtered };
+                    }).filter(({ job }) => job);
                   return (
-                    <TableCell key={index}>
-                      {jobsForDateAndHour.map((job, jobIndex) => (
+                    <TableCell key={index} align={index.align} style={{overflow: 'hidden', width: '100px'}}>
+                      {jobsForDateAndHour.map(({ technicianName, job }, jobIndex) => (
+                        job ? (
                         <Tooltip
                           key={jobIndex}
                           title={
                             <React.Fragment>
+                              <Typography variant="subtitle2">Technician: {technicianName}</Typography>
+                              <Typography variant="subtitle2">Technician: {job.event_date}</Typography>
+                              <Typography variant="subtitle2">Technician: {job.event_start_time}</Typography>
                               <Typography variant="subtitle2">Deal ID: {job.deal_id}</Typography>
                               <Typography variant="subtitle2">Deal Notes: {job.deal_notes || 'N/A'}</Typography>
                               <Typography variant="subtitle2">Stage ID: {job.stage_id}</Typography>
@@ -90,6 +103,7 @@ function CalendarWeek({ currentDate, filteredJobs }) {
                             {job.title}
                           </div>
                         </Tooltip>
+                        ) : null
                       ))}
                     </TableCell>
                   );
