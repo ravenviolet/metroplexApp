@@ -118,47 +118,55 @@ router.post('/', async (req, res) => {
           
           // Fetch the deal details
           const { data } = await api.getDeal(dealId);
+          deal = data;
+          tech = data;
           
-          const mappedDeal = mapDeal(data);
+          const mappedDeal = mapDeal(deal);
           console.log(data);
+          const mappedTech = mapTechnician(tech);
 
+          //dont think this is working at all***
           const savedDeal = await new Job(mappedDeal).save();
+          console.log("Saved Deal:")
+          console.log(savedDeal);
           console.log('Saved deal to MongoDB');
-          const savedTech = await new Technician(mappedTech).save();
+          const newTechnician = savedDeal['technician_fields'];
+          const savedTech = await new Technician(newTechnician).save();
+          console.log(savedTech)
           console.log('Saved Tech to MongoDB');
 
           // res.status(200).json(savedDeal);
 
           // Extract the technician details from the deal
-          const newTechnician = deal['0c83313fba78b12676463126f74527552763ec8e'];
-          console.log(newTechnician);
+          // const newTechnician = savedDeal['technician_fields'];
+          // console.log(newTechnician);
       
-          // If the technician details exist, update the job
-          if (newTechnician) {
-            await Job.updateOne(
-              { deal_id: dealId },
-              {
-                $set: {
-                  'technician_fields.active_flag': newTechnician.active_flag,
-                  'technician_fields.name': newTechnician.name,
-                  'technician_fields.email.value': newTechnician.email.value,
-                  'technician_fields.email.primary': newTechnician.email.primary,
-                  'technician_fields.phone.value': newTechnician.phone.value,
-                  'technician_fields.phone.primary': newTechnician.phone.primary,
-                  'technician_fields.owner_id': newTechnician.owner_id,
-                  'technician_fields.value': newTechnician.value,
-                },
-              }
-            );
-            await Technician
-          } else {
-            console.log(`Technician details not available for deal: ${deal_id}`);
-          }
+          // // If the technician details exist, update the job
+          // if (newTechnician) {
+            // await Job.updateOne(
+          //     { deal_id: dealId },
+          //     {
+          //       $set: {
+          //         'technician_fields.active_flag': newTechnician.active_flag,
+          //         'technician_fields.name': newTechnician.name,
+          //         'technician_fields.email.value': newTechnician.email.value,
+          //         'technician_fields.email.primary': newTechnician.email.primary,
+          //         'technician_fields.phone.value': newTechnician.phone.value,
+          //         'technician_fields.phone.primary': newTechnician.phone.primary,
+          //         'technician_fields.owner_id': newTechnician.owner_id,
+          //         'technician_fields.value': newTechnician.value,
+          //       },
+          //     }
+          //   );
+          //   await Technician
+          // } else {
+          //   console.log(`Technician details not available for deal: ${deal_id}`);
+          // }
 
         } catch (error) {
           console.error('Error updating job field:', error);
         }
-        }
+        } else {
 
         // const existingTech = await Technician.findOne({
         //   value: value
@@ -245,7 +253,8 @@ router.post('/', async (req, res) => {
       );
     }
 
-    // Send a success response
+  } //end else statement
+  // Send a success response
     res.status(200).json({ message: 'Webhook processed successfully' });
   } catch (error) {
     console.error('Error processing webhook:', error);
