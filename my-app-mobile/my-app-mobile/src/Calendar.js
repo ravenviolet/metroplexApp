@@ -11,16 +11,20 @@ import TableRow from '@mui/material/TableRow';
 //mobile version
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Button from '@mui/material/Button';
+import useFetchJobs from './useFetchJobs';
+import { useState, useEffect } from 'react';
 
 const columns = [{ id: 'day', label: 'Job', minWidth: 170 }];
 
+const mapTechnicianToDbId = (technicianFieldValue) => {
+  if (technicianFieldValue === 1) {
+    return 'user_id_1';
+  }
+};
+
 export default function StickyHeadTable(props) {
-  const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
-  const handleLogout = () => {
-    // implement your logout functionality here
-    console.log('Logged out');
-  };
-  const loggedInUser = 'Billy Gibbons'; // replace with actual logged-in user
+  const { user } = props;
+  const { jobs, error } = useFetchJobs();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -33,29 +37,27 @@ export default function StickyHeadTable(props) {
     setPage(0);
   };
 
-  const rows = [
-    {
-      id: 'user_id_1',
-      label: 'Billy Gibbons',
-      tasks: [
-        { id: 'job1', label: 'Photography', start: '08:00', end: '10:00' },
-        // add more jobs as needed
-      ],
-    },
-    {
-      id: 'user_id_2',
-      label: 'James Dean',
-      tasks: [
-        { id: 'job2', label: 'Matterport', start: '11:00', end: '13:00' },
-        // add more jobs as needed
-      ],
-    },
-    // add more users as needed
-  ];
+  // Convert jobs into a format suitable for the table
+  let rows = [];
+  Object.keys(jobs).forEach((techName) => {
+    const userId = mapTechnicianToDbId(techName);
+    const tasks = jobs[techName].map((job) => {
+      return {
+        id: job.deal_id,
+        label: job.title,
+        start: job.event_start_time,
+        end: job.event_end_time, // assuming you have an end time
+      };
+    });
+
+    rows.push({
+      id: userId,
+      label: techName,
+      tasks: tasks,
+    });
+  });
   
   const userTasks = rows.find((user) => user.label === props.user.name).tasks;
-  
-  
   
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>

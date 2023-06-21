@@ -113,8 +113,23 @@ const jobSchema = new mongoose.Schema({
 
 //technician schema for mongodb
 const technicianSchema = new mongoose.Schema({
+  passwordExists: Boolean,
+  passwordVal: String,
+  active_flag: Boolean,
   name: String,
-  id: Number
+  email: {
+      value: String,
+      primary: Boolean,
+  },
+  phone: {
+      value: Number,
+      primary: Boolean,
+  },
+  owner_id: Number,
+  value: Number,
+},
+{
+  timestamps: true
 });
 
 const Job = mongoose.model('Job', jobSchema);

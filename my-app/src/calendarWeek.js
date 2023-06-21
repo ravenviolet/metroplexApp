@@ -10,9 +10,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
 import { addDays, startOfWeek } from 'date-fns';
-// import { useTheme } from '@mui/styles';
-// import { makeStyles } from '@mui/styles';
-
+import Dialog from '@mui/material/Dialog';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import JobDetails from './JobDetails';
+import { useState } from 'react';
 
 
 const getWeekDates = (startDate) => {
@@ -31,17 +33,26 @@ const getWeekStartDate = (date) => {
 };
 
 function CalendarWeek({ currentDate, filteredJobs }) {
-  // const theme = useTheme();
-  // console.log('CALENDARWEEK', filteredJobs);
+
+  //new
+  const [selectedJob, setSelectedJob] = useState(null);
+
+  const handleJobClick = (job) => {
+    setSelectedJob(job);
+  };
+
+  const handleClose = () => {
+    setSelectedJob(null);
+  };
+
   // weekly view
-  // const classes = useStyles();
   const weekStartDate = getWeekStartDate(currentDate);
 
   return (
     <div style={{ marginLeft: '125px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16 }}>
       </div>
-      <TableContainer className="week-table-container" sx={{ maxHeight: 1000 }} component={Paper}>
+      <TableContainer sx={{ maxHeight: 1000 }} component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
@@ -49,7 +60,7 @@ function CalendarWeek({ currentDate, filteredJobs }) {
             {getWeekDates(weekStartDate).map((date, index) => (
               <TableCell key={index} className="MuiTableCell-root">
                 {date
-                  ? <div className="date-container">
+                  ? <div className="">
                       <Typography className="date-item">{date.toLocaleDateString('en-US', { weekday: 'short' })}</Typography>
                       <Typography className="date-item">{date.toLocaleDateString('en-US', { day: 'numeric' })}</Typography>
                     </div>
@@ -99,7 +110,7 @@ function CalendarWeek({ currentDate, filteredJobs }) {
                           }
                           arrow
                         >
-                          <div style={{ backgroundColor: 'red', color: 'white', height: '100%', margin: '0', padding: '0', overflowWrap: 'break-word', alignItems: 'center', justifyContent: 'center', whiteSpace: 'normal', maxWidth: '75px'}}>
+                          <div onClick={() => handleJobClick(job)} style={{ backgroundColor: 'red', color: 'white', height: '100%', margin: '0', padding: '0', overflowWrap: 'break-word', alignItems: 'center', justifyContent: 'center', whiteSpace: 'normal', maxWidth: '75px'}}>
                             {job.title}
                           </div>
                         </Tooltip>
@@ -113,6 +124,25 @@ function CalendarWeek({ currentDate, filteredJobs }) {
           </TableBody>
         </Table>
       </TableContainer>
+      <Dialog
+        fullScreen
+        open={Boolean(selectedJob)}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            position: 'absolute',
+            left: '50%',
+            width: '50%',
+            maxHeight: '100%',
+            overflow: 'auto'
+          },
+        }}
+      >
+        <IconButton edge="end" color="inherit" onClick={handleClose} aria-label="close">
+          <CloseIcon />
+        </IconButton>
+        {<JobDetails job={selectedJob} onClose={handleClose}/>}
+      </Dialog>
     </div>
   );
   }

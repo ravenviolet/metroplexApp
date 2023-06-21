@@ -8,11 +8,13 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Stack from '@mui/material/Stack';
+import { useNavigate } from 'react-router-dom';
 
 export default function MenuListComposition() {
   // Define state variables using the useState hook
   const [open, setOpen] = React.useState(false); // Whether the menu is open or closed
   const anchorRef = React.useRef(null); // A reference to the button that opens the menu
+  const navigate = useNavigate();
 
   // Event handler for toggling the menu open and closed
   const handleToggle = () => {
@@ -48,68 +50,86 @@ export default function MenuListComposition() {
     prevOpen.current = open;
   }, [open]);
 
-  // Render the component
-  return (
-    <Stack direction="row" spacing={2}>
-      {/* Render a paper container for the menu list */}
-      <Paper className="menu-container">
-        <MenuList>
-          {/* Render menu items inside the menu list */}
-          <MenuItem>Profile</MenuItem>
-          <MenuItem>My account</MenuItem>
-          <MenuItem>Logout</MenuItem>
-        </MenuList>
-      </Paper>
-      {/* Render a button to open the menu list */}
-      <div>
-        <Button className = 'dashboard-button'
-          ref={anchorRef}
-          id="composition-button"
-          aria-controls={open ? 'composition-menu' : undefined}
-          aria-expanded={open ? 'true' : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-        >
-          Metroplex 360 Dashboard
-        </Button>
-        {/* Render the menu list using the Popper component */}
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          placement="bottom-start"
-          transition
-          disablePortal
-        >
-          {/* Render the menu items inside the Popper component */}
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === 'bottom-start' ? 'left top' : 'left bottom',
-              }}
-            >
-              <Paper>
-                {/* Handle clicks outside of the menu list using ClickAwayListener */}
-                <ClickAwayListener onClickAway={handleClose}>
-                  {/* Render the actual menu list */}
-                  <MenuList
-                    autoFocusItem={open}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
-                    onKeyDown={handleListKeyDown}
-                  >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </div>
-    </Stack>
-  );
+  const handleCalendarClick = () => {
+    // Close the menu and navigate to the calendar view
+    setOpen(false);
+    navigate('/calendar');
+  }
+
+  const handleDataClick = () => {
+    // Close the menu and navigate to the data view
+    setOpen(false);
+    navigate('/data');
+  }
+
+// Render the component
+return (
+  <Stack direction="row" spacing={2}>
+    {/* Render a paper container for the menu list */}
+    <Paper className="menu-container">
+      <MenuList>
+        {/* Render menu items inside the menu list */}
+        <MenuItem>Profile</MenuItem>
+        <MenuItem>My account</MenuItem>
+        <MenuItem>Logout</MenuItem>
+        {/* Added menu items */}
+        <MenuItem onClick={handleDataClick}>Data</MenuItem>
+        <MenuItem onClick={handleCalendarClick}>Calendar</MenuItem>
+      </MenuList>
+    </Paper>
+    {/* Render a button to open the menu list */}
+    <div>
+      <Button className = 'dashboard-button'
+        ref={anchorRef}
+        id="composition-button"
+        aria-controls={open ? 'composition-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
+        aria-haspopup="true"
+        onClick={handleToggle}
+      >
+        Metroplex 360 Dashboard
+      </Button>
+      {/* Render the menu list using the Popper component */}
+      <Popper
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        placement="bottom-start"
+        transition
+        disablePortal
+      >
+        {/* Render the menu items inside the Popper component */}
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === 'bottom-start' ? 'left top' : 'left bottom',
+            }}
+          >
+            <Paper>
+              {/* Handle clicks outside of the menu list using ClickAwayListener */}
+              <ClickAwayListener onClickAway={handleClose}>
+                {/* Render the actual menu list */}
+                <MenuList
+                  autoFocusItem={open}
+                  id="composition-menu"
+                  aria-labelledby="composition-button"
+                  onKeyDown={handleListKeyDown}
+                >
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  {/* Added menu items */}
+                  <MenuItem onClick={handleClose}>Data</MenuItem>
+                  <MenuItem onClick={handleClose}>Calendar</MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+    </div>
+  </Stack>
+);
 }

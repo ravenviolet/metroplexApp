@@ -40,6 +40,11 @@ function mapDeal(pipedriveDeal) {
     };
   }
 
+  // let dealIDCheck = pipedriveDeal[deal_id];
+  // if(dealIDCheck) {
+  //   for(i=0;i++, i<dealIDCheck.length){}
+  // };
+
   // Map Pipedrive deal fields to Mongoose Job model fields here
   const mappedDeal = {
     deal_id: pipedriveDeal.id,
@@ -134,15 +139,49 @@ function mapDeal(pipedriveDeal) {
   return new Job(mappedDeal);
 }
 
-function mapTechnician(pipedrivePerson) {
-  // Map Pipedrive person fields to Mongoose Technician model fields here
-  const mappedTechnician = {
-    id: pipedrivePerson.id,
-    name: pipedrivePerson.name
-    // Add other technician fields here if any
+function mapTechnician(pipedriveDeal) {
+  let technicianData = pipedriveDeal['0c83313fba78b12676463126f74527552763ec8e'];
+
+  // Default Technician Fields
+  let technicianFields = {
+    active_flag: false,
+    name: '',
+    email: {
+        value: null,
+        primary: null,
+    },
+    phone: {
+        value: null,
+        primary: null,
+    },
+    owner_id: null,
+    value: null,
   };
 
-  return new Technician(mappedTechnician);
+  // If technicianData is not null, map its values
+  if(technicianData) {
+    technicianFields = {
+      active_flag: technicianData.active_flag ?? false,
+      name: technicianData.name ?? '',
+      email: {
+          value: technicianData.email?.value ?? null,  // Added optional chaining (?)
+          primary: technicianData.email?.primary ?? null,  // Added optional chaining (?)
+      },
+      phone: {
+          value: technicianData.phone?.value ?? null,  // Added optional chaining (?)
+          primary: technicianData.phone?.primary ?? null,  // Added optional chaining (?)
+      },
+      owner_id: technicianData.owner_id ?? null,
+      value: technicianData.value ?? null,
+    };
+  }
+
+  const mappedTech = {
+    technician_fields: technicianFields
+  };
+  // };
+
+  return new Technician(mappedTech);
 }
 // const  Model  = require('./models/model');
 

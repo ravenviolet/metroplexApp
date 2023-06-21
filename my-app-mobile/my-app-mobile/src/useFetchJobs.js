@@ -7,7 +7,7 @@ const useFetchJobs = (currentDate = new Date()) => {
   const [jobs, setJobs] = useState([]);
   const [error, setError] = useState(null);
 
-
+ 
   useEffect(() => {
     const formattedDate = currentDate.toISOString().slice(0, 10);
   
