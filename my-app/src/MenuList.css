@@ -1,8 +1,8 @@
 .menu-container {
     min-height: 1000px;
-    height: 1000px;
+    height: 100%;
     position: fixed;
-    background-color: #00719A;
+    background-color: #219ebc;
     border-radius: 0;
 }
 
@@ -32,7 +32,7 @@
 @media screen and (min-width: 768px) {
     .menu-container {
         min-height: 1000px;
-        height: 1000px;
+        height: 100%;
         position: fixed;
     }
     

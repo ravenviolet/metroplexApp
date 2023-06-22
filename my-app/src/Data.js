@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import './Data.css';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import useFetchJobs from './useFetchJobs';
 import { Typography, Box, FormControlLabel, Switch, TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import LinearProgress from '@mui/material/LinearProgress';
 // import { timeZoneList } from './timeZones'; 
 
 function Data() {
@@ -28,7 +30,7 @@ function Data() {
 
 
   return (
-    <div style={{ height: 400, width: '90%', marginLeft: 150, marginTop: 150, marginRight: 150 }}>
+    <div style={{ height: 400, width: '90%', marginLeft: 150, marginRight: 150 }}>
       <Box display="flex" justifyContent="space-between" alignItems="space-between" marginBottom={2}>
         <Box>
           <FormControlLabel
@@ -71,7 +73,7 @@ function Data() {
           />
         </Box>
       </Box>
-      <DataGrid rows={rows} columns={columns} pageSize={5} />
+      <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar, loadingOverlay: LinearProgress }} loading pageSize={5} />
     </div>
   );
 }

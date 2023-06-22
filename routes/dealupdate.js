@@ -14,15 +14,15 @@ apiToken.apiKey = 'adee9abc6e0b3449db978340e0fd9ea104923205';
 router.post('/', async (req, res) => {
   try {
     // Process the webhook payload here
-    console.log('Webhook received:', req.body);
+    // console.log('Webhook received:', req.body);
 
     const eventType = req.body.meta.action; // Get the event type from the webhook payload
-    console.log(eventType);
+    // console.log(eventType);
     if (eventType === 'updated') { 
       const updatedDeal = req.body.current; // Get the updated deal data from the webhook payload
 
       // Process the updated deal data
-      console.log(`Deal updated. New data:`, updatedDeal);
+      // console.log(`Deal updated. New data:`, updatedDeal);
 
       // Update the fields for the deal ID in the MongoDB collection:      
       const dealId = req.body.meta.id;
@@ -102,9 +102,30 @@ router.post('/', async (req, res) => {
       // Check if a job with the given deal_id and technicianId exists
       const existingJob = await Job.findOne({
         deal_id: deal_id,
-        'technician_fields.value': technicianId,
+        'technician_fields.value': technicianId
+      });
+      console.log(existingJob);
+
+      const existingTech = await Technician.findOne({
+        value: technicianId
       });
 
+      if(!existingTech) {
+        try {
+        const api = new pipedrive.DealsApi(defaultClient);
+
+        const { data } = await api.getDeal(dealId);
+        deal = data;
+
+        const mappedDeal = mapDeal(deal);
+        // const savedDeal = await new Job(mappedDeal).save();
+        const newTechnician = mappedDeal['technician_fields'];
+        const savedTech = await new Technician(newTechnician).save();
+        
+      } catch (error) {
+        console.error('Error updating tech field:', error);
+      } 
+      }
 
       // If the job and tech combo doesn't exist, fetch the deal details and create a new job
       if (!existingJob) {
@@ -113,7 +134,7 @@ router.post('/', async (req, res) => {
           // return new Job(mappedDeal).save();
         // router.get('/deal/:id', async (req, res) => {
         try {
-          console.log('Updating Job Field');
+          // console.log('Updating Job Field');
           const api = new pipedrive.DealsApi(defaultClient);
           
           // Fetch the deal details
@@ -122,18 +143,18 @@ router.post('/', async (req, res) => {
           tech = data;
           
           const mappedDeal = mapDeal(deal);
-          console.log(data);
-          const mappedTech = mapTechnician(tech);
+          // console.log(data);
+          // const mappedTech = mapTechnician(tech);
 
           //dont think this is working at all***
           const savedDeal = await new Job(mappedDeal).save();
-          console.log("Saved Deal:")
-          console.log(savedDeal);
-          console.log('Saved deal to MongoDB');
+          // console.log("Saved Deal:")
+          // console.log(savedDeal);
+          // console.log('Saved deal to MongoDB');
           const newTechnician = savedDeal['technician_fields'];
           const savedTech = await new Technician(newTechnician).save();
-          console.log(savedTech)
-          console.log('Saved Tech to MongoDB');
+          // console.log(savedTech)
+          // console.log('Saved Tech to MongoDB');
 
           // res.status(200).json(savedDeal);
 

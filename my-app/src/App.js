@@ -5,6 +5,7 @@ import { StyledEngineProvider } from '@mui/material/styles';
 import MenuListComposition from './MenuList';
 import "./MenuList.css";
 import "./Calendar.css";
+import "./Data.css";
 import CalendarView from './CalendarView';
 import Data from './Data';
 import './App.css';
