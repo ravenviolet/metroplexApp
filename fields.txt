@@ -1,0 +1,124 @@
+        "52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f_timezone_id": 228,
+        "87bccaa66e94e9fb339a2adc343333fa900fbe27": "Revisiting to capture Exterior 360s as noted with red circles on FP below:\nhttps://www.dropbox.com/s/nr9dvu8nswqqls7/PNC%20Bank%20-%20River%20Oaks%20FP.png?dl=0\n\nWhen reuploading - please make COPY and then delete scan points relevant to the Wealth Mgmt side of this scan. The pink dot on the floorplan above indicates the start of Wealth Mgmt. \n\nUpload MP\nbooking@metroplex360.com    Booking@M360\nAccount: M3",
+        "40fc635f90f19d5c6a369ffd40a5c86ecd1b90b9": 0,
+        "40fc635f90f19d5c6a369ffd40a5c86ecd1b90b9_currency": "USD",
+        "723580ee6b265282f6fee4b98c51fce6a89d464e": 0,
+        "723580ee6b265282f6fee4b98c51fce6a89d464e_currency": "USD",
+        "487d7e7c8a77fe47e49a250d198070be8641e1b5": null,
+        "ab47790bf8f7ad264b7a5bc7307cd48fd612047f": "26",
+        "cf7c9522cc73f9c120e4b1d770cf62aef14ffdf6": "27",
+        "5d961f699a8722b3ed69ab165d1c7a477f598ce8": null,
+        "719c75a4889b84b952c802ac2858cdaa31656c79": "",
+        "d396fa684a338b5908fa62a40bbcee2c48a1908e": "https://my.matterport.com/show/?m=pdZnCEtNYRb",
+        "f079d444d4137a200d1d71835293d4207aefa103": null,
+        "d9b82e3c321ec465052d3c3a88c6a54a4d2c7f58": null,
+        "8f2dfa63e5cf2f9faaf95e494dd8f484c9fe98db": null,
+        "39589ccfd5ffcd561e249e1fa452bafd3d21d93a": 0,
+        "39589ccfd5ffcd561e249e1fa452bafd3d21d93a_currency": "USD",
+        "f8cb375b3aaa58fdf584b1ae6216d8be0b3d92f0": null,
+        "b99a1bae6c53cc5512d0d26c9b00ce46c90276d6": null,
+        "f2f9dfc79ba86e100f3230b218e6e78a6ade2929": null,
+        "29e4737bb43941cee199691a6600c8b96c995777": "",
+        "9dc2d655930ee0d4254d7bccd853dd17c760369b": null,
+        "aad2bd7ba19899db4dfc6c7f895866efde260713": 0,
+        "aad2bd7ba19899db4dfc6c7f895866efde260713_currency": "USD",
+        "63abc182d5f9254b5a59e619ff288cc409211980": null,
+        "0ccf2ebde552fce2e9deba49e668858af6c09a59": null,
+        "b05583e6adfaadc57786e6a0b198c01091166a9e": null,
+
+Timezone ID: 222
+Tech Notes, access, POC
+Tech Payout
+$0
+Tech Travel
+$0
+Tech Payout Date
+-
+Event Status
+Confirmed
+*Calendar Actions
+Action Completed
+++++ Assets ++++
+-
+Deliverables (dropbox link)
+-
+3D Tour URL
+https://my.matterport.com/show/?m=pdZnCEtNYRb
+Matterport Archive Date
+-
+Camera Type
+-
+Photo Editing
+-
+Advanced Photo Edit
+$0
++++ Accounts+++
+-
+Invoice Number
+-
+Invoice Date
+-
+Invoice URL
+-
+Part Paid
+-
+Other Payout
+$0
+Other Payout note
+-
++++ Do Not Edit +++
+-
+Previously Assigned Technician
+-
+
+        event_start_time: pipedriveDeal['52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f'] ?? '',
+
+        "a5ed135fe1d0c912d151685da4f86620106e074f": "2023-10-05",
+        "52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f": "11:00:00",
+
+        "52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f_timezone_id": 228,
+        "87bccaa66e94e9fb339a2adc343333fa900fbe27": "Revisiting to capture Exterior 360s as noted with red circles on FP below:\nhttps://www.dropbox.com/s/nr9dvu8nswqqls7/PNC%20Bank%20-%20River%20Oaks%20FP.png?dl=0\n\nWhen reuploading - please make COPY and then delete scan points relevant to the Wealth Mgmt side of this scan. The pink dot on the floorplan above indicates the start of Wealth Mgmt. \n\nUpload MP\nbooking@metroplex360.com    Booking@M360\nAccount: M3",
+
+        "40fc635f90f19d5c6a369ffd40a5c86ecd1b90b9": 0,
+        "40fc635f90f19d5c6a369ffd40a5c86ecd1b90b9_currency": "USD",
+        "723580ee6b265282f6fee4b98c51fce6a89d464e": 0,
+        "723580ee6b265282f6fee4b98c51fce6a89d464e_currency": "USD",
+        
+        "487d7e7c8a77fe47e49a250d198070be8641e1b5": "2023-06-23",
+        "ab47790bf8f7ad264b7a5bc7307cd48fd612047f": "26",
+        "cf7c9522cc73f9c120e4b1d770cf62aef14ffdf6": "27",
+        "5d961f699a8722b3ed69ab165d1c7a477f598ce8": "assets",
+        "719c75a4889b84b952c802ac2858cdaa31656c79": "https://dropbox",
+        "d396fa684a338b5908fa62a40bbcee2c48a1908e": "https://my.matterport.com/show/?m=pdZnCEtNYRb",
+        "f079d444d4137a200d1d71835293d4207aefa103": null,
+        "d9b82e3c321ec465052d3c3a88c6a54a4d2c7f58": "18",
+        "8f2dfa63e5cf2f9faaf95e494dd8f484c9fe98db": 3,
+        "39589ccfd5ffcd561e249e1fa452bafd3d21d93a": 0,
+        "39589ccfd5ffcd561e249e1fa452bafd3d21d93a_currency": "USD",
+        "f8cb375b3aaa58fdf584b1ae6216d8be0b3d92f0": "accounts",
+        "b99a1bae6c53cc5512d0d26c9b00ce46c90276d6": 34534,
+        "f2f9dfc79ba86e100f3230b218e6e78a6ade2929": "2023-06-30",
+        "29e4737bb43941cee199691a6600c8b96c995777": "https:invoice",
+        "9dc2d655930ee0d4254d7bccd853dd17c760369b": "33",
+        "aad2bd7ba19899db4dfc6c7f895866efde260713": 0,
+        "aad2bd7ba19899db4dfc6c7f895866efde260713_currency": "USD",
+        "63abc182d5f9254b5a59e619ff288cc409211980": "other payout note",
+        "0ccf2ebde552fce2e9deba49e668858af6c09a59": "do not edit",
+        "b05583e6adfaadc57786e6a0b198c01091166a9e": {
+            "active_flag": true,
+            "name": "mary mary mary",
+            "email": [
+                {
+                    "value": "",
+                    "primary": true
+                }
+            ],
+            "phone": [
+                {
+                    "value": "",
+                    "primary": true
+                }
+            ],
+            "owner_id": 18537868,
+            "value": 49
+        },

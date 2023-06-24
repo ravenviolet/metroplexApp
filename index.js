@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const mongoString = process.env.DATABASE_URL;
 const dupDeals = require('./models/model_update')
 
-
 mongoose.connect(mongoString);
 const database = mongoose.connection;
 
@@ -31,4 +30,3 @@ app.use('/api/dealupdate', dealUpdateRoute);
 app.listen(process.env.PORT || 3000, () => {
     console.log('Listening for requests');
   });
-  

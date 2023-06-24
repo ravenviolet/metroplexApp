@@ -131,9 +131,32 @@ function mapDeal(pipedriveDeal) {
     community_name: pipedriveDeal['bb04ca63627f17ecb02aac6a7260876c6492079f'] ?? '',
     // technician_name: pipedriveDeal['0c83313fba78b12676463126f74527552763ec8e']?.name ?? 'Default Name',
     technician_fields: technicianFields,
-    timezone_id: pipedriveDeal['52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f_timezone_i'] ?? '',
+    timezone_id: pipedriveDeal['52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f_timezone_id'] ?? '',
     event_date: pipedriveDeal['a5ed135fe1d0c912d151685da4f86620106e074f'] ?? '',
-    event_start_time: pipedriveDeal['52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f'] ?? ''
+    event_start_time: pipedriveDeal['52e0c2cd1fbf5b9b56a79450b79a3e8757bb5b1f'] ?? '',  
+    tech_notes: pipedriveDeal['87bccaa66e94e9fb339a2adc343333fa900fbe27'] ?? '',
+    tech_payout: pipedriveDeal['40fc635f90f19d5c6a369ffd40a5c86ecd1b90b9'] ?? '',
+    tech_travel: pipedriveDeal['723580ee6b265282f6fee4b98c51fce6a89d464e'] ?? '',
+    tech_payout_date: pipedriveDeal['487d7e7c8a77fe47e49a250d198070be8641e1b5'] ?? '',
+    event_status: pipedriveDeal['ab47790bf8f7ad264b7a5bc7307cd48fd612047f'] ?? '',
+    calendar_actions: pipedriveDeal['cf7c9522cc73f9c120e4b1d770cf62aef14ffdf6'] ?? '',
+    assets: pipedriveDeal['5d961f699a8722b3ed69ab165d1c7a477f598ce8'] ?? '',
+    dropbox_deliverable: pipedriveDeal['719c75a4889b84b952c802ac2858cdaa31656c79'] ?? '',
+    threed_tour_url: pipedriveDeal['d396fa684a338b5908fa62a40bbcee2c48a1908e'] ?? '',
+    matterport_archive_date: pipedriveDeal['f079d444d4137a200d1d71835293d4207aefa103'] ?? '',
+    camera_type: pipedriveDeal['d9b82e3c321ec465052d3c3a88c6a54a4d2c7f58'] ?? '',
+    photo_editing: pipedriveDeal['8f2dfa63e5cf2f9faaf95e494dd8f484c9fe98db'] ?? '',
+    advanced_photo_edit: pipedriveDeal['39589ccfd5ffcd561e249e1fa452bafd3d21d93a'] ?? '',
+    accounts: pipedriveDeal['f8cb375b3aaa58fdf584b1ae6216d8be0b3d92f0'] ?? '',
+    invoice_number: pipedriveDeal['b99a1bae6c53cc5512d0d26c9b00ce46c90276d6'] ?? '',
+    invoice_date: pipedriveDeal['f2f9dfc79ba86e100f3230b218e6e78a6ade2929'] ?? '',
+    invoice_url: pipedriveDeal['29e4737bb43941cee199691a6600c8b96c995777'] ?? '',
+    part_paid: pipedriveDeal['9dc2d655930ee0d4254d7bccd853dd17c760369b'] ?? '',
+    other_payout: pipedriveDeal['aad2bd7ba19899db4dfc6c7f895866efde260713'] ?? '',
+    other_payout_note: pipedriveDeal['63abc182d5f9254b5a59e619ff288cc409211980'] ?? '',
+    do_not_edit: pipedriveDeal['0ccf2ebde552fce2e9deba49e668858af6c09a59'] ?? '',
+    prev_assigned_tech: pipedriveDeal['b05583e6adfaadc57786e6a0b198c01091166a9e'] ?? ''
+    
   };
 
   return new Job(mappedDeal);

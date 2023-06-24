@@ -81,25 +81,33 @@ router.delete('/cleanup', async (req, res) => {
 
 //get all deals
 router.get('/deals', async (req, res) => {
-    try {
-      console.log('Getting deals...');
-      const api = new pipedrive.DealsApi(defaultClient);
-      const { data } = await api.getDeals();
-  
-      // Map and save each deal
-      const savedDeals = await Promise.all(data.map(async deal => {
-        const mappedDeal = mapDeal(deal);
-        console.log(deal);
-        return await new Job(mappedDeal).save().catch(console.error);
-      }));
-  
-      console.log(`Saved ${savedDeals.length} deals to MongoDB!`);
-      res.status(200).json(savedDeals);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Failed to retrieve deals.' });
-    }
-  });
+  try {
+    console.log('Getting deals...');
+    const api = new pipedrive.DealsApi(defaultClient);
+    const { data } = await api.getDeals();
+
+    // Map and upsert (update or insert) each deal
+    const upsertedDeals = await Promise.all(data.map(async deal => {
+      const mappedDeal = mapDeal(deal);
+      console.log(deal);
+      
+      // Here's the findOneAndUpdate with upsert
+      return await Job.findOneAndUpdate(
+        { deal_id: mappedDeal.deal_id }, // find a document with this filter
+        mappedDeal, // document to insert when nothing was found
+        { upsert: true, new: true, runValidators: true } // options
+      ).catch(console.error);
+    }));
+
+    console.log(`Upserted ${upsertedDeals.length} deals to MongoDB!`);
+    res.status(200).json(upsertedDeals);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to retrieve deals.' });
+  }
+});
+
+
   
   router.get('/deal/:id', async (req, res) => {
     try {
