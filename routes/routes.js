@@ -79,7 +79,7 @@ router.delete('/cleanup', async (req, res) => {
   }
 });
 
-//get all deals
+//get all deals - comment
 router.get('/deals', async (req, res) => {
   try {
     console.log('Getting deals...');
