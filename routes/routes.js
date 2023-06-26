@@ -45,8 +45,12 @@ router.get('/deals', async (req, res) => {
     console.log('Got deals, mapping...');
     const updatedDeals = data.map(deal => mapDeals(deal));
     console.log('Mapped deals, saving...');
-    const savedDeals = await Job.insertMany(updatedDeals);
-    console.log('Saved deals');
+    // Iterate through each deal and update based on deal_id
+    for(let deal of updatedDeals){
+      await Job.findOneAndUpdate({ deal_id: deal.deal_id }, deal, { upsert: true });
+    }
+
+    console.log('Updated deals');
     res.status(200).json({ message: 'Deals retrieved and saved successfully' });
   } catch (error) {
     console.error(error);
