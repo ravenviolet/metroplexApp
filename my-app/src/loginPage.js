@@ -12,9 +12,9 @@ export default function LoginPage(props) {
     e.preventDefault();
   
     try {
-      console.log("About to send request");
+      // console.log("About to send request");
       const response = await axios.post('http://localhost:3000/api/users/login', { name, passwordVal });
-      console.log(response);
+      // console.log(response);
       
       if (response.data.isAdmin) {
         props.onLogin(response.data);
@@ -24,7 +24,7 @@ export default function LoginPage(props) {
       }
 
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       alert('Invalid username or password');
     }
   };

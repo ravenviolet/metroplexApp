@@ -62,6 +62,12 @@ export default function MenuListComposition() {
     navigate('/data');
   }
 
+  const handleProfileClick = () => {
+    // Close the menu and navigate to the profile
+    setOpen(false);
+    navigate('/profile');
+  }
+
 // Render the component
 return (
   <Stack direction="row" spacing={2}>
@@ -69,12 +75,13 @@ return (
     <Paper className="menu-container">
       <MenuList>
         {/* Render menu items inside the menu list */}
-        <MenuItem>Profile</MenuItem>
-        <MenuItem>My account</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem>
         {/* Added menu items */}
         <MenuItem onClick={handleDataClick}>Data</MenuItem>
         <MenuItem onClick={handleCalendarClick}>Calendar</MenuItem>
+        <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
       </MenuList>
     </Paper>
     {/* Render a button to open the menu list */}
@@ -117,12 +124,12 @@ return (
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
                   <MenuItem onClick={handleClose}>My account</MenuItem>
                   <MenuItem onClick={handleClose}>Logout</MenuItem>
-                  {/* Added menu items */}
-                  <MenuItem onClick={handleClose}>Data</MenuItem>
-                  <MenuItem onClick={handleClose}>Calendar</MenuItem>
+                  {/* Corrected menu items */}
+                  <MenuItem onClick={handleDataClick}>Data</MenuItem>
+                  <MenuItem onClick={handleCalendarClick}>Calendar</MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>
@@ -132,4 +139,4 @@ return (
     </div>
   </Stack>
 );
-}
+          }

@@ -10,6 +10,7 @@ import CalendarView from './CalendarView';
 import Data from './Data';
 import './App.css';
 import LoginPage from './loginPage';
+import Profile from './Profile';
 // import { ThemeProvider } from '@mui/material/styles';
 
 function App() {
@@ -31,14 +32,14 @@ function App() {
         {/* <ThemeProvider theme={theme}> */}
           <MenuListComposition />
           <Routes>
-          <Route path="/calendar" element={<CalendarView />} />
-          <Route path="/data" element={<Data />} />
-          {/* <JobDetails /> */}
-          {/* </ThemeProvider> */}
+            <Route path="/calendar" element={<CalendarView />} />
+            <Route path="/data" element={<Data />} />
+            <Route path="/profile" element={<Profile user={loggedInUser} />} /> 
           </Routes>
         </StyledEngineProvider>
       </React.StrictMode>
     </div>
+    <button onClick={handleLogout}>Logout</button>
     </Router>
   ) : (
     <LoginPage onLogin={handleLogin} />
