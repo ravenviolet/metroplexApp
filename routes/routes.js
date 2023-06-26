@@ -11,50 +11,6 @@ router.use(express.json());
 let apiToken = defaultClient.authentications.api_key;
 apiToken.apiKey = 'f4c82e6bb626151a0936fbb415abbd423dca23da';
 
-//webhook
-// router.post('/webhook', async (req, res) => {
-//   try {
-//     // Process the webhook payload here
-//     console.log('Webhook received:', req.body);
-
-//     const eventType = req.body.meta.action; // Get the event type from the webhook payload
-//     console.log(eventType);
-//     if (eventType === 'updated') { 
-//       const updatedDeal = req.body.current; // Get the updated deal data from the webhook payload
-
-//       // Process the updated deal data
-//       console.log(`Deal updated. New data:`, updatedDeal);
-
-//       const dealId = req.body.meta.id;
-
-//       // Job.findById(dealId, function (err,doc) {
-//       //   if (err){
-//       //     console.log(err);
-//       //   }
-//       //   else{
-//       //     console.log( "Results : ", doc);
-//       //   }
-
-//       //   return doc;
-//       // });
-
-//       const newTitle = updatedDeal.title;
-
-//       // Update the title field for the deal ID in the MongoDB collection
-//       await Job.updateOne(
-//         { deal_id: dealId },
-//         { $set: { title: newTitle } }
-//       );
-//     }
-
-//     // Send a success response
-//     res.status(200).json({ message: 'Webhook processed successfully' });
-//   } catch (error) {
-//     console.error('Error processing webhook:', error);
-//     res.status(500).json({ message: 'Error processing webhook' });
-//   }
-// });
-
 router.delete('/cleanup2', async (req, res) => {
   try {
     // const extraFieldExists = { title: { $exists: false } };
@@ -85,18 +41,19 @@ router.get('/deals', async (req, res) => {
     console.log('Getting deals...');
     const api = new pipedrive.DealsApi(defaultClient);
     const { data } = await api.getDeals();
-    // console.log(data);
-    const updatedDeals = await Promise.all(data.map(async deal => {
-      const mappedDeals = mapDeals(data);
-      console.log(mappedDeals);
-    }))
-    // console.log(mappedDeals);
-    const savedDeal = await new Job(updatedDeals).save();
+    console.log(data);
+    console.log('Got deals, mapping...');
+    const updatedDeals = data.map(deal => mapDeals(deal));
+    console.log('Mapped deals, saving...');
+    const savedDeals = await Job.insertMany(updatedDeals);
+    console.log('Saved deals');
+    res.status(200).json({ message: 'Deals retrieved and saved successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to retrieve deals.' });
   }
 });
+
 
   router.get('/deal/:id', async (req, res) => {
     try {
@@ -108,18 +65,6 @@ router.get('/deals', async (req, res) => {
     catch(error) {
         res.status(500).json({message: error.message})
     }
-      // Map and save each deal
-    //   const savedDeals = await Promise.all(data.map(async deal => {
-    //     const mappedDeal = mapDeal(deal);
-    //     return await new Job(mappedDeal).save().catch(console.error);
-    //   }));
-  
-//       console.log(`Saved ${savedDeals.length} deals to MongoDB!`);
-//       res.status(200).json(savedDeals);
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).json({ message: 'Failed to retrieve deals.' });
-//     }
   });
   
   //get all people
@@ -178,198 +123,3 @@ router.get('/techs', async (req, res) => {
 });
 
 module.exports = router;
-//uncomment  later
-// router.post('/addDeal', async (req, res) => {
-//     try {
-//       console.log('Sending request...');
-  
-//       const dealsApi = new pipedrive.DealsApi(defaultClient);
-  
-//       const data = {
-//         title: req.body.title,
-//         value: req.body.value,
-//         currency: req.body.currency,
-//         user_id: req.body.user_id,
-//         person_id: req.body.person_id,
-//         org_id: req.body.org_id,
-//         stage_id: req.body.stage_id,
-//         status: req.body.status,
-//         expected_close_date: req.body.expected_close_date,
-//         probability: req.body.probability,
-//         lost_reason: req.body.lost_reason,
-//         visible_to: req.body.visible_to,
-//         add_time: req.body.add_time,
-//       };
-  
-//       const response = await dealsApi.addDeal(data);
-  
-//       console.log('Deal was added successfully!', response);
-  
-//       res.status(200).json(response);
-//     } catch (error) {
-//       console.error(error);
-  
-//       res.status(500).json({ message: 'Adding deal failed.' });
-//     }
-//   });
-
-// router.get('/deals', async (req, res) => {
-//     try {
-//       console.log('Getting deals...');
-//       const api = new pipedrive.DealsApi(defaultClient);
-//       const deal = await api.getDeals();
-//       const mappedDeal = mapDeal(deal.data);
-//       const data = new MyModel(mappedDeal);
-//       const savedData = await data.save();
-//       console.log(`Saved deals to MongoDB!`);
-//       res.status(200).json(data);
-//     } catch (error) {
-//       console.error(error);
-  
-//       res.status(500).json({ message: 'Failed to retrieve deals.' });
-//     }
-//   });  
-
-
-
-  //get list of technicians
-  
-// router.get('/fetch-technicians', async (req, res) => {
-//     try {
-//       // Fetch data from Pipedrive API
-//       const api = new pipedrive.DealsApi(defaultClient);
-//     //   const response = await axios.get(`https://companydomain.pipedrive.com/api/v1/persons?api_token=API_KEY`);
-//       const mappedTechnician = mapTechnician(person.data);
-//       const data = new 
-//       // Extract technicians and their IDs
-//     //   const technicians = response.data.data.map(person => ({
-//     //     name: person.name,
-//     //     id: person.id,
-//     //   }));
-  
-//       // Store in MongoDB
-//       await Technician.insertMany(technicians);
-  
-//       res.send('Technicians fetched and stored successfully!');
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).send('An error occurred');
-//     }
-//   });
-//   router.post('/addDeal3', async (req, res) => {
-//     try {
-//       const api = new pipedrive.DealsApi(defaultClient);
-//       const deal = await api.getDeal(req.body.deal_id);
-//       const mappedDeal = mapDeal(deal.data);
-//       const data = new Model(mappedDeal);
-//       const savedData = await data.save();
-//       res.json(savedData);
-//     } catch (error) {
-//       res.status(500).json({ message: error.message });
-//     }
-//   });
-  
-  //Get a single deal by ID Method
-// router.get('/getDeal2/:id', async (req, res) => {
-//     try {
-//         const api = new pipedrive.DealsApi(defaultClient);
-//         const deal = await api.getDeal(req.params.id);
-//         res.json(deal);
-//     }
-//     catch(error){
-//         res.status(500).json({message: error.message})
-//     }
-// });
-
-//Update Deal
-// router.put('/updateDeal/:deal_id', async (req, res) => {
-//     try {
-//       // Retrieve current deal data from Pipedrive
-//       const api = new pipedrive.DealsApi(defaultClient);
-//       const deal = await api.getDeal(req.params.deal_id);
-//       const pipedriveData = deal.data;
-  
-//       // Map Pipedrive data to MongoDB format if necessary
-//       const mappedData = mapDeal(pipedriveData);
-  
-//       // Update deal data in Pipedrive
-//       const updatedDeal = {
-//         ...pipedriveData,
-//         stage_id: req.body.stage_id // Update stage ID
-//       };
-//       await api.updateDeal(req.params.deal_id, updatedDeal);
-  
-//       // Save updated deal data to MongoDB
-//       const mongodb = await MongoClient.connect('mongodb://localhost:27017');
-//       const db = mongodb.db('myapp');
-//       const collection = db.collection('deals');
-//       const result = await collection.replaceOne({ id: req.params.deal_id }, mappedData, { upsert: true });
-  
-//       // Return updated deal data to client
-//       res.json(updatedDeal);
-//     } catch (error) {
-//       res.status(500).json({ message: error.message });
-//     }
-//   });
-
-// router.post('/post2', async (req, res) => {
-//     if (!req.body || !req.body.name) {
-//         return res.status(400).json({ message: 'Name is required' });
-//     }
-//     const data = new Model({
-//         name: req.body.name,
-//     });
-
-//     try {
-//         const savedData = await data.save();
-//         res.status(200).json(savedData);
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// });
-
-// //Get by ID Method
-// router.get('/getOne/:id',async (req, res) => {
-//     try {
-//         const data = await Model.findById(req.params.id);
-//         res.json(data)
-//         console.log(data);
-//     }
-//     catch(error){
-//         res.status(500).json({message: error.message})
-//     }
-// });
-
-// //Update by ID Method
-// router.patch('/update/:id', async (req, res) => {
-//     try {
-//         const id = req.params.id;
-//         const updatedData = req.body;
-//         const options = { new: true};
-
-//         const result = await Model.findByIdAndUpdate(
-//             id, updatedData, options
-//         )
-
-//         res.send(result)
-//     }
-//     catch (error) {
-//         res.status(400).json({ message: error.message })
-//     }
-// });
-
-// //Delete by ID Method
-// router.delete('/delete/:id', async (req, res) => {
-//     try {
-//         const id = req.params.id;
-//         const data = await Model.findByIdAndDelete(id)
-//         res.send(`Document with ${data.name} has been deleted..`);
-//     }
-//     catch(error) {
-//         res.status(500).json({ message: error.message})
-//     }
-// });
-// })();
-
-
-
