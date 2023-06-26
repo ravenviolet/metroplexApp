@@ -11,12 +11,16 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { format, addDays, subDays, addWeeks, subWeeks, startOfWeek, endOfWeek, subMonths, addMonths } from 'date-fns';
+import './calendarView.css';
 
 function CalendarView() {
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const { jobs, error } = useFetchJobs(currentDate);
   const [filteredJobs, setFilteredJobs] = useState([]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   const [setJobs] = useState([]);
 
@@ -60,6 +64,18 @@ function CalendarView() {
     // 1 for Monday as the start of the week
   };
 
+  const handleSearch = () => {
+    let result = jobs.filter((job) => 
+        job.deal.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        job.user.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(result);
+    if (result.length > 0) {
+        let date = new Date(result[0].event_date); // Assuming job has event_date property
+        setCurrentDate(date);
+    }
+};
+
   useEffect(() => {
     let filtered;
     if (view === 'day') {
@@ -84,6 +100,12 @@ function CalendarView() {
     <div>
       <div style={{ maxWidth: '1000', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16, marginLeft: 125 }}>
+        <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button style={{ textAlign: 'right', marginTop: 0 }} onClick={handleSearch}>Search</button>
         <IconButton onClick={handlePreviousDate} style={{ backgroundColor: 'transparent' }}>
         <ArrowBackIcon />
         </IconButton>
