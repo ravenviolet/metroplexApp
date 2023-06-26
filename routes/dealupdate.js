@@ -8,7 +8,7 @@ const defaultClient = new pipedrive.ApiClient();
 //This code represents updating deals via the Pipedrive webhook
 router.use(express.json());
 let apiToken = defaultClient.authentications.api_key;
-apiToken.apiKey = 'adee9abc6e0b3449db978340e0fd9ea104923205';
+apiToken.apiKey = 'f4c82e6bb626151a0936fbb415abbd423dca23da';
 
 //webhook for deal update
 router.post('/', async (req, res) => {
@@ -104,7 +104,7 @@ router.post('/', async (req, res) => {
         deal_id: deal_id,
         'technician_fields.value': technicianId
       });
-      console.log(existingJob);
+      // console.log(existingJob);
 
       const existingTech = await Technician.findOne({
         value: technicianId
@@ -142,6 +142,7 @@ router.post('/', async (req, res) => {
           deal = data;
           tech = data;
           
+          console.log(typeof deal);
           const mappedDeal = mapDeal(deal);
           // console.log(data);
           // const mappedTech = mapTechnician(tech);

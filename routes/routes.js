@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 const { Job, Technician } = require('../models/model');
 const pipedrive = require('pipedrive');
-const { mapDeal, mapTechnician } = require('../pipeMap.js');
+const { mapDeals, mapDeal, mapTechnician } = require('../pipeMap.js');
 const defaultClient = new pipedrive.ApiClient();
 // const cors = require('cors');
 
 router.use(express.json());
 // router.use(cors());
 let apiToken = defaultClient.authentications.api_key;
-apiToken.apiKey = 'adee9abc6e0b3449db978340e0fd9ea104923205';
+apiToken.apiKey = 'f4c82e6bb626151a0936fbb415abbd423dca23da';
 
 //webhook
 // router.post('/webhook', async (req, res) => {
@@ -85,30 +85,19 @@ router.get('/deals', async (req, res) => {
     console.log('Getting deals...');
     const api = new pipedrive.DealsApi(defaultClient);
     const { data } = await api.getDeals();
-
-    // Map and upsert (update or insert) each deal
-    const upsertedDeals = await Promise.all(data.map(async deal => {
-      const mappedDeal = mapDeal(deal);
-      console.log(deal);
-      
-      // Here's the findOneAndUpdate with upsert
-      return await Job.findOneAndUpdate(
-        { deal_id: mappedDeal.deal_id }, // find a document with this filter
-        mappedDeal, // document to insert when nothing was found
-        { upsert: true, new: true, runValidators: true } // options
-      ).catch(console.error);
-    }));
-
-    console.log(`Upserted ${upsertedDeals.length} deals to MongoDB!`);
-    res.status(200).json(upsertedDeals);
+    // console.log(data);
+    const updatedDeals = await Promise.all(data.map(async deal => {
+      const mappedDeals = mapDeals(data);
+      console.log(mappedDeals);
+    }))
+    // console.log(mappedDeals);
+    const savedDeal = await new Job(updatedDeals).save();
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Failed to retrieve deals.' });
   }
 });
 
-
-  
   router.get('/deal/:id', async (req, res) => {
     try {
       console.log('Getting deals by id...');
@@ -175,6 +164,16 @@ router.get('/jobs', async (req, res) => {
   } catch (error) {
     console.error('Error fetching job data:', error);
     res.status(500).json({ message: 'Error fetching job data' });
+  }
+});
+
+router.get('/techs', async (req, res) => {
+  try {
+    const techs = await Technicians.find(); // Query the MongoDB collection to get tech data
+    res.status(200).json(techs); // Send the tech data as a JSON response
+  } catch (error) {
+    console.error('Error fetching tech data:', error);
+    res.status(500).json({ message: 'Error fetching  data' });
   }
 });
 

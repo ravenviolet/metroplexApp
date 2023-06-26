@@ -5,6 +5,10 @@ import useFetchJobs from './useFetchJobs';
 import { Typography, Box, FormControlLabel, Switch, TextField, InputAdornment, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LinearProgress from '@mui/material/LinearProgress';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 // import JobDetails from './JobDetails';
 // import { timeZoneList } from './timeZones'; 
 
@@ -23,30 +27,41 @@ function Data() {
     { field: 'city_name', headerName: 'City', sortable: true },
     { field: 'state_name', headerName: 'State', sortable: true },
     { field: 'community_name', headerName: 'Community', sortable: true },
-    { field: 'technician_Data.name', headerName: 'Technician', sortable: true },
-    { field: 'job_accepted', headerName: 'Accepted', sortable: true },
+    { field: 'technician_name', headerName: 'Technician', sortable: true },
+    { field: 'event_status_name', headerName: 'Accepted', sortable: true },
+    
     //... Other columns go here
   ];
 
   // Convert jobs into a format suitable for the data grid
-  const rows = Object.values(jobs).flat().map((job, index) => ({ id: index, ...job }));
-
+  const rows = Object.values(jobs).flat().map((job, index) => {
+    return {
+      id: index,
+      ...job,
+      technician_name: job.technician_fields?.name,
+      event_status_name: job.active // add your own path if event_status is nested
+    };
+  });
+  
 
   return (
     <div style={{ height: 400, width: '80%', paddingRight: 50, marginLeft: 150, marginRight: 150 }}>
       <Box display="flex" justifyContent="space-between" alignItems="space-between" marginBottom={2}>
         <Box>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={view === 'technicians'}
-                onChange={(e) => setView(e.target.checked ? 'technicians' : 'deals')}
-                name="viewToggle"
-                color="primary"
-              />
-            }
-            label="Technicians"
-          />
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select=label">Data</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              
+              
+              
+            >
+              <MenuItem value={view === 'deals'} onChange={(e) => setView(e.target.view ? 'technicians' : 'deals')}>Jobs</MenuItem>
+              <MenuItem value={view === 'technicians'} onChange={(e) => setView(e.target.view ? 'technicians' : 'deals')}>Technicians</MenuItem>
+              </Select>
+              
+          </FormControl>
           <FormControlLabel
             control={
               <Switch
@@ -76,7 +91,7 @@ function Data() {
           />
         </Box>
       </Box>
-      <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar, loadingOverlay: LinearProgress }} loading pageSize={5} />
+      <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar}} pageSize={5} />
     </div>
   );
 }

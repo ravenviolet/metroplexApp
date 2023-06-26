@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import getTimeZoneForJob from './getTimeZone';
-import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz'
+import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import { format } from 'date-fns';
 
 const useFetchJobs = (currentDate = new Date()) => {
