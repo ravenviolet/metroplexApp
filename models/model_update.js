@@ -12,8 +12,6 @@ async function dupDeals(db) {
 
   async function dupDeals() {
     const allDeals = await Job.find();
-
-  
   }
 
 }
