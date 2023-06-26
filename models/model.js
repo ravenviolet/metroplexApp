@@ -156,12 +156,26 @@ const technicianSchema = new mongoose.Schema({
   timestamps: true
 });
 
+const userSchema = new mongoose.Schema({
+  passwordExists: Boolean,
+  passwordVal: String,
+  adminFlag: Boolean,
+  name: String,
+  email: {
+      value: String,
+      primary: Boolean,
+  },
+  phone: {
+      value: Number,
+      primary: Boolean,
+  },
+},
+{
+  timestamps: true
+});
+
+const User = mongoose.model('User', userSchema);
 const Job = mongoose.model('Job', jobSchema);
 const Technician = mongoose.model('Technician', technicianSchema);
 
-module.exports = { Job, Technician };
-// const Technician = mongoose.model('Technician', technicianSchema);
-
-// const Model = mongoose.model('Model', jobSchema, technicianSchema);
-
-// module.exports = Model;
+module.exports = { User, Job, Technician };

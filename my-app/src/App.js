@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import ReactDOM from 'react-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
@@ -9,16 +9,21 @@ import "./Data.css";
 import CalendarView from './CalendarView';
 import Data from './Data';
 import './App.css';
-import { ThemeProvider } from '@mui/material/styles';
-// import theme from './Theme';
-// import JobDetails from './Information';
-
+import LoginPage from './loginPage';
+// import { ThemeProvider } from '@mui/material/styles';
 
 function App() {
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
-  // const data = { /* your data here */ };
+  const handleLogin = (user) => {
+    setLoggedInUser(user);
+  };
 
-  return (
+  const handleLogout = () => {
+    setLoggedInUser(null);
+  };
+
+  return loggedInUser ? (
     <Router>
     <div className="App">
       <React.StrictMode>
@@ -35,6 +40,8 @@ function App() {
       </React.StrictMode>
     </div>
     </Router>
+  ) : (
+    <LoginPage onLogin={handleLogin} />
   );
 }
 

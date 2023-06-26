@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { Job, Technician } = require('../models/model');
+const { User, Job, Technician } = require('../models/model');
 const pipedrive = require('pipedrive');
 const { mapDeals, mapDeal, mapTechnician } = require('../pipeMap.js');
 const defaultClient = new pipedrive.ApiClient();
-// const cors = require('cors');
+const bcrypt = require('bcrypt'); 
+const cors = require('cors');
 
 router.use(express.json());
 // router.use(cors());
@@ -58,6 +59,32 @@ router.get('/deals', async (req, res) => {
   }
 });
 
+//Define a route for getting technicains
+router.post('/users/login', async (req, res) => {
+  try {
+    // console.log(req.body);
+      const user = await User.findOne({ name: req.body.name });
+      console.log(user);
+      
+      if (!user) {
+          return res.status(401).json({ message: 'Invalid username or password' });
+      }
+      // Compare submitted password with hashed password in the database
+      // Using bcrypt for password comparison. Replace it with your hashing mechanism if different.
+      // const validPassword = bcrypt.compareSync(req.body.password, user.password); 
+      const validPassword = req.body.passwordVal === user.passwordVal;
+      // console.log(validPassword);
+      if (!validPassword) {
+          return res.status(401).json({ message: 'Invalid username or password2' });
+      }
+
+      // Send the user back (you may not want to send back the password though)
+      res.json({ username: user.name, isAdmin: user.adminFlag });
+  } catch (error) {
+      console.error('Error during user login:', error);
+      res.status(500).json({ message: 'Server error during user login' });
+  }
+});
 
   router.get('/deal/:id', async (req, res) => {
     try {
@@ -105,6 +132,7 @@ router.get('/dealFields', async (req, res) => {
 });
 
 //react routes
+
 // Define a route for getting job data
 router.get('/jobs', async (req, res) => {
   try {

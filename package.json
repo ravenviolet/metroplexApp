@@ -12,6 +12,7 @@
   "dependencies": {
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.2",
+    "bcrypt": "^5.1.0",
     "concurrently": "^8.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
